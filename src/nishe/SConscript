@@ -1,0 +1,25 @@
+import checks
+import os
+
+Import('*')
+
+# get a list of source files
+nishe_src = set()
+
+for f in env.Glob('*.cpp'):
+	path, file = os.path.split(str(f) )
+	nishe_src.add(file)
+	
+# remove the hrtime file since we don't want to compile it just yet
+nishe_src.remove('hrtime.cpp')
+
+# compile them into object files
+nishe_objs = env.Object(list(nishe_src) )
+
+merged_env = checks.merge_hrtime(env, hrtime_env)
+obj = merged_env.Object('hrtime.cpp')
+
+nishe_objs.append(obj)
+
+# export the objects from this directory for storing in a library
+Export('nishe_objs')

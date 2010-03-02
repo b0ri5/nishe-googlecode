@@ -1,0 +1,20 @@
+# use the env and libsuffix global variables
+Import('*')
+
+env.AppendUnique(CPPPATH = ['#src/include'] )
+
+env.SConscript('nishe/SConscript')
+
+Import('nishe_objs')
+
+libnishe_name = 'nishe%s' % (libsuffix)
+nishe_lib = env.StaticLibrary('#/lib/%s' % (libnishe_name), [nishe_objs] )
+env.Alias('lib' + libnishe_name, nishe_lib)
+
+# export the library name and the library so that executables can make use of them
+Export('libnishe_name', 'nishe_lib')
+
+env.SConscript('nishe/bin/SConscript')
+
+#env.SConscript('pnishe/SConscript')
+#Import('pnishe_objs')

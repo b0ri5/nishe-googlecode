@@ -1,0 +1,21 @@
+import os
+
+Import('*')
+
+env = env.Clone(LIBS = libnishe_name, LIBPATH = "#/lib")
+
+def add_exe(name, env = env):
+	exe = env.Program(name, [name + '.cpp'])
+	env.Depends(exe, nishe_lib)
+	env.InstallAs(target = '#/bin/%s%s' % (name, libsuffix),
+		source = exe)
+
+nishe_exes = set()
+
+for f in env.Glob('*.cpp'):
+	path, file = os.path.split(str(f) )
+	name, ext = os.path.splitext(file)
+	nishe_exes.add(name)
+
+for file in nishe_exes:
+	add_exe(file)
