@@ -1,0 +1,61 @@
+here's how I'd like to do the sowing part of the refinement method:
+
+for v in nbhd(u):
+	degs[v] += deg(u, v)
+
+I don't want to have to write several different refinement methods, so 
+ideall this deg(...) concept will be abstracted. In the case of symmetric
+simple graphs, this will just be deg(...) = 1. In the case of directed
+graphs, this will be either 0, 1, or 2, and degs[v] will be a triplet, and
+its index 0, 1, or 2 will be incremented. 
+
+This means that two things need to be abstracted:
+	1) Iterating over the neighborhood of a vertex, and
+	2) Adding a degree to the data structure to accumulate them
+
+For efficiency reasons, the iteration of nbhds should be very fast. 
+
+1) For symmetric graphs is easy enough. 
+
+Refiner<SimpleGraph> refiner;
+
+vertex_degree in graph
+degree_sum in Refiner RefineTraceInvar
+
+// in Graph
+vector<vertex_degree>
+
+vertex_t *get_nbhd_iterator(vertex_t u);
+
+vector<pair<vertex_t, weight_t> > // weighted graph, directed too
+
+pair<vertex_t, weight_t> *get_nbhd_iterator(vertex_t u);
+size_t get_nbhd_size(vertex_t u);
+
+// sample for graph
+template <typename vertex_degree>
+class Graph
+{
+public:
+	vector<vertex_degree> vNbhds;
+};
+
+// sample for refiner
+template <typename GraphType, typename degree_sum>
+class Refiner
+{
+public:
+
+private:	
+	vector<degree_sum> vDegreeSums;
+};
+
+// sample for 
+template <typename degree_sum>
+class RefineTraceInvariantValue
+{
+public:
+private:
+	vector<vertex_t> vActive;
+	vector< vector<pair<vertex_t, degree_sum> > > vActiveDegrees;
+};
