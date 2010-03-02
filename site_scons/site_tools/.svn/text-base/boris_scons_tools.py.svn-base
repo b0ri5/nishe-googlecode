@@ -1,0 +1,14 @@
+from SCons.Script import *
+
+def generate(env, **kw):
+	# append common latex locations and the environment's path
+	env.PrependENVPath('PATH', os.environ['PATH'])
+	env.PrependENVPath('PATH', '/Users/boris/local/openmpi/bin')
+	env.PrependENVPath('PATH', '/Users/boris/local/mpe2/bin')
+	env.PrependENVPath('PATH', '/home/boris/local/openmpi/bin/')
+	env.PrependENVPath('PATH', '/home/boris/local/mpe2/bin/')
+	
+	env.Tool('default')
+
+def exists(env):
+	return True
