@@ -1,0 +1,14 @@
+Import('*')
+
+env.SConscript('src/SConscript')
+
+Import('unittest_objs')
+
+unittests_name = 'NisheUnittests%s' % (libsuffix)
+unittests = env.Program('bin/%s' % (unittests_name),
+			unittest_objs,
+			LIBPATH = ['#/lib'], LIBS = [libnishe_name, 'gtest', 'gtest_main'])
+
+env.Depends(unittests, nishe_lib)
+env.InstallAs(target = '#/bin/%s' % (unittests_name),
+		source = unittests) 

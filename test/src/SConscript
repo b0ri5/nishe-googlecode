@@ -1,0 +1,14 @@
+import os
+
+Import('*')
+
+# get a list of source files
+unittest_src = set()
+
+for f in env.Glob('*.cc'):
+	path, file = os.path.split(str(f) )
+	unittest_src.add(file)
+	
+unittest_objs = env.Object(list(unittest_src) )
+
+Export('unittest_objs')
