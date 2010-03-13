@@ -18,6 +18,8 @@ using std::make_pair;
 using std::cout;
 using std::endl;
 
+namespace nishe {
+
 PartitionNest::PartitionNest()
 {
 }
@@ -647,3 +649,5 @@ istream &operator>> (istream &in, PartitionNest &pi)
 
     pi.commit_pending_indices();
 }
+
+}  // namespace nishe

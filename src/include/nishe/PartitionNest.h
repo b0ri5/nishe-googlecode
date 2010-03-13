@@ -21,6 +21,8 @@ using std::string;
 using std::ostream;
 using std::istream;
 
+namespace nishe {
+
 /*
  * This class represents a stack of finer ordered partitions pi_0, ..., pi_k.
  * Here, k is the level of the nest and all operations access/modify pi_k.
@@ -122,5 +124,7 @@ class PartitionNest
 
 ostream &operator<< (ostream &out, const PartitionNest &pi);
 istream &operator>> (istream &in, PartitionNest &pi);
+
+}  // namespace nishe
 
 #endif  // _PARTITION_NEST_H_

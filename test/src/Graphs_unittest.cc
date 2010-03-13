@@ -15,7 +15,7 @@ using std::ifstream;
 using std::make_pair;
 using std::pair;
 
-namespace {
+namespace nishe {
 
 class GraphsTest : public ::testing::Test
 {
@@ -52,7 +52,7 @@ class GraphsTest : public ::testing::Test
     }
 
     template <typename graph_t>
-    string output_graph(graph_t &G)
+    string output_graph(const graph_t &G)
     {
         stringstream ss;
 
@@ -358,6 +358,6 @@ TEST_F(GraphsDeathTest, InputListAsciiColoredGraphWrongPartitionSize)
     check_wrong_partition_size(&basic_graph, "0 : 1 ;\n[ 0:2 ]", 2, 3);
 }
 
-}  // namespace
+}  // namespace nishe
 
 

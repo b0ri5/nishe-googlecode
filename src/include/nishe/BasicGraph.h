@@ -8,6 +8,8 @@
 
 #include <nishe/Graph.h>
 
+namespace nishe {
+
 /*
  * Represents a basic graph that just keeps track of a list
  * of neighbors for each vertex.
@@ -34,5 +36,7 @@ class BasicGraph : public Graph<vertex_t, size_t, size_t>
         return 1;
     }
 };
+
+}  // namespace nishe
 
 #endif  // _BASIC_GRAPH_H_

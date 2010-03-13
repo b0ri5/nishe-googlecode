@@ -9,6 +9,10 @@
 #include <nishe/Graph.h>
 #include <nishe/MapDegreeSum.h>
 
+#include <utility>
+
+namespace nishe {
+
 class IntegerWeightedGraph : public Graph<std::pair<vertex_t, int>,
     MapDegreeSum<int>, int >
 {
@@ -26,5 +30,7 @@ class IntegerWeightedGraph : public Graph<std::pair<vertex_t, int>,
         return nbhr.second;
     }
 };
+
+}  // namespace nishe
 
 #endif  // _INTEGER_WEIGHTED_GRAPH_H_

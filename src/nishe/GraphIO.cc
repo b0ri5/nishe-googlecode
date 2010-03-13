@@ -3,12 +3,14 @@
     Released under the Lesser General Public License v3.
 */
 
-#include <nishe/GraphIO.h>
+#include <nishe/GraphIO-inl.h>
 
 #include <exception>
 #include <stdexcept>
 #include <iostream>
 #include <string>
+
+namespace nishe {
 
 static bool add_edge(BasicGraph *pG, vertex_t u, string token)
 {
@@ -129,3 +131,5 @@ void GraphIO::output_list_ascii(ostream &out, const IntegerWeightedGraph &G)
 {
     GraphIO::output_list_ascii(out, G, output_nbhr_integer_weighted_graph);
 }
+
+}  // namespace nishe

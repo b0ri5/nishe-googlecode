@@ -14,6 +14,7 @@
 #include <nishe/Util.h>
 
 using namespace std;
+using namespace nishe;
 
 
 void graphs(int argc, char **argv)
@@ -83,7 +84,8 @@ void partitions(int argc, char **argv)
 }
 
 /*
- * This is the testbed for the components of Nishe, making sure basic functions work.
+ * This is the testbed for the components of Nishe,
+ * making sure basic functions work.
  */
 int main(int argc, char **argv)
 {

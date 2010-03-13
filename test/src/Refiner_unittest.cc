@@ -4,7 +4,7 @@
 */
 
 #include <nishe/BasicGraph.h>
-#include <nishe/Refiner.h>
+#include <nishe/Refiner-inl.h>
 #include <nishe/RefineTraceValue.h>
 #include <nishe/GraphIO.h>
 
@@ -19,9 +19,7 @@ using std::make_pair;
 using std::map;
 using std::stringstream;
 
-namespace {
-
-
+namespace nishe {
 
 class RefinerTest : public ::testing::Test
 {
@@ -146,4 +144,4 @@ TEST_F(RefinerTest, IsEquitableIntegerWeightedGraph)
     EXPECT_TRUE(is_equitable(integer_weighted_graph, pi) );
 }
 
-}  // namespace
+}  // namespace nishe

@@ -11,6 +11,8 @@
 
 using std::map;
 
+namespace nishe {
+
 /*
  * A generic degree sum for weighted graphs
  * this is a generalization of InOutBoth used in directed graphs
@@ -89,5 +91,6 @@ struct MapDegreeSum
     map<weight_t, size_t> weight_map;
 };
 
+}  // namespace nishe
 
 #endif  // _MAP_DEGREE_SUM_H_

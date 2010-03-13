@@ -6,18 +6,18 @@ Import('*')
 # get a list of source files
 nishe_src = set()
 
-for f in env.Glob('*.cpp'):
+for f in env.Glob('*.cc'):
 	path, file = os.path.split(str(f) )
 	nishe_src.add(file)
 	
 # remove the hrtime file since we don't want to compile it just yet
-nishe_src.remove('hrtime.cpp')
+nishe_src.remove('hrtime.cc')
 
 # compile them into object files
 nishe_objs = env.Object(list(nishe_src) )
 
 merged_env = checks.merge_hrtime(env, hrtime_env)
-obj = merged_env.Object('hrtime.cpp')
+obj = merged_env.Object('hrtime.cc')
 
 nishe_objs.append(obj)
 

@@ -17,6 +17,8 @@ using std::istream;
 using std::ostream;
 using std::stringstream;
 
+namespace nishe {
+
 /*
  * This class aids in the input and output of graphs (and partitions).
  *
@@ -94,7 +96,6 @@ class GraphIO
             void (*)(ostream &in, const nbhr_t &) );
 };
 
-// include the meat of the template functions
-#include <nishe/GraphIO-inl.h>
+}  // namespace nishe
 
 #endif  // _GRAPH_IO_H_

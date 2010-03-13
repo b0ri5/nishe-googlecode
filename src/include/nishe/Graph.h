@@ -13,6 +13,8 @@
 // a vertex is any nonnegatve integer
 typedef size_t vertex_t;
 
+namespace nishe {
+
 /*
  * The graph class must provide the ability to iterate over the neighbors
  * of a vertex, and define the type used to sum its degrees.
@@ -77,5 +79,6 @@ class Graph
     std::vector< std::vector<nbhr_t> > vNbhds;
 };
 
+}  // namespace nishe
 
 #endif  // _GRAPH_H_

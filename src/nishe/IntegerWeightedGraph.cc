@@ -13,6 +13,8 @@ using std::vector;
 using std::make_pair;
 using std::max;
 
+namespace nishe {
+
 bool IntegerWeightedGraph::add_weighted_edge(vertex_t u, vertex_t v, int weight)
 {
     add_vertex(std::max(u, v) );
@@ -32,3 +34,5 @@ bool IntegerWeightedGraph::add_weighted_edge(vertex_t u, vertex_t v, int weight)
 
     return false;
 }
+
+}  // namespace nishe

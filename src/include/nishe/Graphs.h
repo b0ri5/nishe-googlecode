@@ -17,5 +17,4 @@
 #include <sstream>
 #include <exception>
 
-
 #endif  // _GRAPHS_H_

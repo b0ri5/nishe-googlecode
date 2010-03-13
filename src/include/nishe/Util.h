@@ -23,6 +23,8 @@ using std::set;
 using std::deque;
 using std::pair;
 
+namespace nishe {
+
 // Converts a vector to a string of 1**k for every 1, 1, ... 1 (k times)
 string runlength_compress(const vector<int> &v, string sExp = "**");
 
@@ -39,7 +41,7 @@ vector<string> split(string s, string delim);
 vector<vector<int> > string2cells(string s);
 
 // Convert gets a string of form 1-n for every 1, 2, ..., n for compact output.
-template <class T>
+template <typename T>
 string range_compress(const vector<T> &v)
 {
     stringstream ss;
@@ -93,9 +95,15 @@ string range_compress(const vector<T> &v)
     return ss.str();
 }
 
+}  // namespace nishe
 
-template <class T>
-ostream &operator<<(ostream &os, vector<T> &v)
+
+/*
+ * These I/O operators need to be outside of the namespace as far as I know.
+ */
+
+template <typename T>
+ostream &operator<<(ostream &os, const vector<T> &v)
 {
     int i = 0;
 
@@ -111,28 +119,10 @@ ostream &operator<<(ostream &os, vector<T> &v)
     return os;
 }
 
-template <class T>
-ostream &operator<<(ostream &os, vector<vector<T> > &v)
+template <typename K, typename V>
+ostream &operator<<(ostream &os, const map<K, V> &m)
 {
-    int i = 0;
-
-    os << "[ ";
-
-    for (i = 0; i < v.size(); i++)
-    {
-        os << v[i] << " ";
-    }
-
-    os << "]";
-
-    return os;
-}
-
-
-template <class k, class v>
-ostream &operator<<(ostream &os, map<k, v> &m)
-{
-    typename map<k, v>::iterator it;
+    typename map<K, V>::const_iterator it;
 
     os << "{";
 
@@ -151,10 +141,10 @@ ostream &operator<<(ostream &os, map<k, v> &m)
     return os;
 }
 
-template <class T, class C>
-ostream &operator<<(ostream &os, set<T, C> &c)
+template <typename T>
+ostream &operator<<(ostream &os, const set<T> &c)
 {
-    typename set<T, C>::iterator it;
+    typename set<T>::const_iterator it;
 
     os << "{";
 
@@ -173,30 +163,7 @@ ostream &operator<<(ostream &os, set<T, C> &c)
     return os;
 }
 
-template <class T>
-ostream &operator<<(ostream &os, pair<T *, int> &array)
-{
-    int i = 0;
-    int n = 0;
-    T *a = NULL;
-
-    a = array.first;
-    n = array.second;
-
-    os << "[ ";
-
-    for (i = 0; i < n; i++)
-    {
-        os << a[i] << " ";
-    }
-
-    os << "]";
-
-    return os;
-}
-
-
-template <class T, class C>
+template <typename T, class C>
 ostream &operator<<(ostream &os, const pair<T, C> &c)
 {
     os << "(" << c.first << ", " << c.second << ")";
@@ -204,8 +171,8 @@ ostream &operator<<(ostream &os, const pair<T, C> &c)
     return os;
 }
 
-template <class T>
-ostream &operator<<(ostream &os, deque<T> &c)
+template <typename T>
+ostream &operator<<(ostream &os, const deque<T> &c)
 {
     int i = 0;
 

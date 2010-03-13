@@ -6,10 +6,14 @@
     Released under the Lesser General Public License v3.
 */
 
+#include <nishe/GraphIO.h>
+
 #include <string>
 #include <sstream>
 
 using std::stringstream;
+
+namespace nishe {
 
 static bool is_whitespace(string s)
 {
@@ -26,7 +30,7 @@ static bool is_whitespace(string s)
     return true;
 }
 
-static void fail(string err)
+void fail(string err)
 {
     fprintf(stderr, "%s: %s\n",
             "Error Error Examine",
@@ -191,5 +195,7 @@ void GraphIO::output_list_ascii(ostream &out,
         }
     }
 }
+
+}  // namespace nishe
 
 #endif  // _GRAPH_IO_INL_H_

@@ -10,6 +10,8 @@
 
 using std::vector;
 
+namespace nishe {
+
 bool BasicGraph::add_edge(vertex_t u, vertex_t v)
 {
     add_vertex(std::max(u, v) );
@@ -29,3 +31,5 @@ bool BasicGraph::add_edge(vertex_t u, vertex_t v)
 
     return false;
 }
+
+}  // namespace nishe

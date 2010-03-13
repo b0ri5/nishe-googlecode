@@ -6,12 +6,13 @@
 #include <nishe/Util.h>
 
 #include <sstream>
-#include <iostream>
 #include <string>
 #include <vector>
 
 using std::vector;
 using std::string;
+
+namespace nishe {
 
 // expand a string like "0:3 5 4" --> [ 0 1 2 3 5 4 ]
 vector<int> expand_range(string s)
@@ -223,3 +224,5 @@ int factor_cycles(int *anCycles, int n, int *an)
 
     return nTotal;
 }
+
+}  // namespace nishe

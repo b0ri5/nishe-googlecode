@@ -11,6 +11,8 @@
 using std::pair;
 using std::make_pair;
 
+namespace nishe {
+
 const size_t DirectedGraph::IN = 0;
 const size_t DirectedGraph::OUT = 1;
 const size_t DirectedGraph::BOTH = 2;
@@ -105,3 +107,5 @@ bool DirectedGraph::add_arc(vertex_t u, vertex_t v)
 
     return true;
 }
+
+}  // namespace nishe

@@ -15,7 +15,7 @@
 using std::stringstream;
 using std::ifstream;
 
-namespace {
+namespace nishe {
 
 static string escape_brackets(string s)
 {
@@ -358,4 +358,4 @@ TEST_F(PartitionNestDeathTest, BreakoutNotFound)
     check_breakout_not_found(0, 0);
 }
 
-}  // namespace
+}  // namespace nishe

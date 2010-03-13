@@ -10,6 +10,8 @@
 
 #include <utility>
 
+namespace nishe {
+
 // a degree triplet (for in, out, and both arcs)
 struct InOutBoth
 {
@@ -28,7 +30,8 @@ struct InOutBoth
  * The vertex_degree type is a pair of a vertex and a weight of 0, 1, or 2,
  * and the degree sums are triplets of nonnegative integers (in, out, both)
  */
-class DirectedGraph : public Graph< std::pair<vertex_t, size_t>, InOutBoth, size_t>
+class DirectedGraph
+    : public Graph< std::pair<vertex_t, size_t>, InOutBoth, size_t>
 {
  public:
     static const size_t IN;
@@ -50,5 +53,6 @@ class DirectedGraph : public Graph< std::pair<vertex_t, size_t>, InOutBoth, size
     }
 };
 
+}  // namespace nishe
 
 #endif  // _DIRECTED_GRAPH_H_
