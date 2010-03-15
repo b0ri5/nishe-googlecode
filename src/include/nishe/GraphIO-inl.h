@@ -30,12 +30,24 @@ static bool is_whitespace(string s)
     return true;
 }
 
-void fail(string err)
+template <typename graph_t>
+string GraphIO::output_list_ascii_string(ostream &out,
+        const graph_t &G)
 {
-    fprintf(stderr, "%s: %s\n",
-            "Error Error Examine",
-            err.c_str() );
-    exit(1);
+    stringstream ss;
+
+    output_list_ascii(ss, G);
+
+    return ss.str();
+}
+
+template<typename graph_t>
+bool GraphIO::input_list_ascii(string s,
+        graph_t *pG, PartitionNest *pPi)
+{
+    stringstream ss(s);
+
+    return GraphIO::input_list_ascii(ss, pG, pPi);
 }
 
 template <typename graph_t>
@@ -194,6 +206,19 @@ void GraphIO::output_list_ascii(ostream &out,
             out << "\n";
         }
     }
+}
+
+template <typename graph_t>
+void GraphIO::null(graph_t *pG, int n)
+{
+    pG->add_vertex(n - 1);
+}
+
+template <typename graph_t>
+void GraphIO::null(graph_t *pG, PartitionNest *pPi, int n)
+{
+    null(pG);
+    pPi->unit(n);
 }
 
 }  // namespace nishe

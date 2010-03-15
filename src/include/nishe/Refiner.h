@@ -12,9 +12,11 @@
 
 #include <map>
 #include <vector>
+#include <set>
 
 using std::map;
 using std::vector;
+using std::set;
 
 namespace nishe {
 
@@ -30,17 +32,36 @@ namespace nishe {
  */
 
 template <typename graph_t>
+bool is_equitable(const graph_t &G, const PartitionNest &pi);
+
+template <typename graph_t>
 class Refiner
 {
  public:
-    int refine(const graph_t &G, PartitionNest *pPi,
-            RefineTraceValue<graph_t> *pTrace, int initial_active_index = -1);
+    int refine(const graph_t &G, PartitionNest *pi_ptr,
+            RefineTraceValue<graph_t> *trace_ptr, int initial_active_index = -1);
 
  private:
-    int refine(const graph_t &G, PartitionNest *pPi,
-        RefineTraceValue<graph_t> *pTrace,
-        vector<int> &initial_active_indices);
+    int refine(const graph_t &G, PartitionNest *pi_ptr,
+        RefineTraceValue<graph_t> *trace_ptr,
+        vector<int> *active_indices_ptr);
 
+    void split_with_index(int active_index,
+            const graph_t &G, PartitionNest *pi_ptr,
+            RefineTraceValue<graph_t> *trace_ptr,
+            vector<int> *active_indices_ptr, int *cmp_ptr);
+
+    void sort_and_split_indices(int active_index,
+            const set<int> &adjacent_indices,
+            PartitionNest *pi_ptr, RefineTraceValue<graph_t> *trace_ptr,
+            vector<int> *active_indices_ptr, int *cmp_ptr);
+
+    void sort_and_split_index(int active_index,
+            int adjacent_index, PartitionNest *pi_ptr,
+            RefineTraceValue<graph_t> *trace_ptr, vector<int> *active_indices_ptr,
+            int *pNbhrSumCount, int *cmp_ptr);
+
+    // the place to sow nbhrs in
     vector<typename graph_t::nbhr_sum> nbhr_sums;
 };
 

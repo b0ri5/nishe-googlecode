@@ -3,10 +3,11 @@
     Released under the Lesser General Public License v3.
 */
 
-#include <nishe/BasicGraph.h>
+#include <nishe/Graphs.h>
 #include <nishe/Refiner-inl.h>
 #include <nishe/RefineTraceValue.h>
-#include <nishe/GraphIO.h>
+#include <nishe/GraphIO-inl.h>
+#include "BaseNisheTest.h"
 
 #include <gtest/gtest.h>
 
@@ -21,13 +22,9 @@ using std::stringstream;
 
 namespace nishe {
 
-class RefinerTest : public ::testing::Test
+class RefinerTest : public BaseNisheTest
 {
- public:
-    BasicGraph basic_graph;
-    DirectedGraph directed_graph;
-    IntegerWeightedGraph integer_weighted_graph;
-    PartitionNest pi;
+
 };
 
 TEST_F(RefinerTest, RefineTraceValueCompare)
@@ -38,7 +35,7 @@ TEST_F(RefinerTest, RefineTraceValueCompare)
 
     EXPECT_EQ(0, a.cmp(b) );
 
-    // ensure if 'b' is too short that 'a' is smaller
+    // ensure if 'b' is too short that 'a' is larger
     a.active_indices.push_back(1);
     EXPECT_EQ(1, a.cmp(b) );
     EXPECT_EQ(-1, b.cmp(a) );
@@ -89,11 +86,11 @@ TEST_F(RefinerTest, RefineTraceValueCompare)
 // test out is_equitable on different graphs
 TEST_F(RefinerTest, IsEquitableBasicGraph)
 {
-    GraphIO::input_list_ascii("0 : ;\n[ 0 ]", &basic_graph, &pi);
+    GraphIO::null(&basic_graph, 1);
     EXPECT_TRUE(is_equitable(basic_graph, pi) );
 
-    GraphIO::input_list_ascii("0 : 1 ;\n1 : 2 ;\n[ 0:2 ]",
-            &basic_graph, &pi);
+    GraphIO::path(&basic_graph, &pi, 3);
+
     EXPECT_FALSE(is_equitable(basic_graph, pi) );
 
     pi.advance_level();
@@ -117,7 +114,7 @@ TEST_F(RefinerTest, IsEquitableBasicGraph)
 
 TEST_F(RefinerTest, IsEquitableDirectedGraph)
 {
-    GraphIO::input_list_ascii("0 : 1 ;", &directed_graph, &pi);
+    GraphIO::directed_path(&directed_graph, &pi, 2);
     EXPECT_FALSE(is_equitable(directed_graph, pi) );
 
     pi.advance_level();
@@ -132,8 +129,6 @@ TEST_F(RefinerTest, IsEquitableIntegerWeightedGraph)
             &integer_weighted_graph, &pi);
     EXPECT_FALSE(is_equitable(integer_weighted_graph, pi) );
 
-    GraphIO::output_list_ascii(std::cout, integer_weighted_graph);
-
     pi.advance_level();
     pi.breakout(1);
     // pi == [ 1 | 0 2 ]
@@ -142,6 +137,22 @@ TEST_F(RefinerTest, IsEquitableIntegerWeightedGraph)
     pi.breakout(0);
     // pi == [ 1 | 0 | 2 ]
     EXPECT_TRUE(is_equitable(integer_weighted_graph, pi) );
+}
+
+TEST_F(RefinerTest, RefineSmallGreater)
+{
+    RefineTraceValue<BasicGraph> a;
+    Refiner<BasicGraph> refiner;
+
+    GraphIO::path(&basic_graph, &pi, 3);
+
+    a.set_clear(false);
+
+    EXPECT_EQ(1, refiner.refine(basic_graph, &pi, &a) );
+
+    a.push_active_index(-1);
+
+    EXPECT_EQ(1, refiner.refine(basic_graph, &pi, &a) );
 }
 
 }  // namespace nishe

@@ -188,4 +188,15 @@ ostream &operator<<(ostream &os, const deque<T> &c)
     return os;
 }
 
+
+template <typename T>
+string str(const T &x)
+{
+    stringstream ss;
+
+    ss << x;
+
+    return ss.str();
+}
+
 #endif  // _UTIL_H_

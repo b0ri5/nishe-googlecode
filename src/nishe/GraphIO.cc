@@ -12,6 +12,14 @@
 
 namespace nishe {
 
+void fail(string err)
+{
+    fprintf(stderr, "%s: %s\n",
+            "Error Error Examine",
+            err.c_str() );
+    exit(1);
+}
+
 static bool add_edge(BasicGraph *pG, vertex_t u, string token)
 {
     std::stringstream ss(token);
@@ -130,6 +138,55 @@ void GraphIO::output_list_ascii(ostream &out, const DirectedGraph &G)
 void GraphIO::output_list_ascii(ostream &out, const IntegerWeightedGraph &G)
 {
     GraphIO::output_list_ascii(out, G, output_nbhr_integer_weighted_graph);
+}
+
+void GraphIO::symmetric_closure(BasicGraph *pBasic,
+        const DirectedGraph &directed)
+{
+    pBasic->clear();
+
+    for (int u = 0; u < directed.vertex_count(); u++)
+    {
+        const DirectedGraph::nbhr *nbhd = directed.get_nbhd(u);
+
+        for (int i = 0; i < directed.get_nbhd_size(u); i++)
+        {
+            vertex_t v = directed.nbhr_vertex(nbhd[i]);
+            pBasic->add_edge(u, v);
+        }
+    }
+}
+
+void GraphIO::path(BasicGraph *pG, int n)
+{
+    pG->clear();
+
+    for (int u = 0; u < n - 1; u++)
+    {
+        pG->add_edge(u, u + 1);
+    }
+}
+
+void GraphIO::path(BasicGraph *pG, PartitionNest *pPi, int n)
+{
+    path(pG, n);
+    pPi->unit(n);
+}
+
+void GraphIO::directed_path(DirectedGraph *pG, int n)
+{
+    pG->clear();
+
+    for (int u = 0; u < n - 1; u++)
+    {
+        pG->add_arc(u, u + 1);
+    }
+}
+
+void GraphIO::directed_path(DirectedGraph *pG, PartitionNest *pPi, int n)
+{
+    directed_path(pG, n);
+    pPi->unit(n);
 }
 
 }  // namespace nishe

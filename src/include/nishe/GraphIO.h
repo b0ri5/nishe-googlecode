@@ -51,9 +51,14 @@ namespace nishe {
  *         e u v means there's an edge from u to v
  */
 
+void fail(string err);
+
 class GraphIO
 {
  public:
+
+    // input methods
+
     static bool input_list_ascii(istream &in,
             BasicGraph *pG, PartitionNest *pPi);
 
@@ -65,14 +70,10 @@ class GraphIO
 
     template<typename graph_t>
     static bool input_list_ascii(string s,
-            graph_t *pG, PartitionNest *pPi)
-    {
-        stringstream ss(s);
-
-        return GraphIO::input_list_ascii(ss, pG, pPi);
-    }
+            graph_t *pG, PartitionNest *pPi);
 
     // output methods
+
     static void output_list_ascii(ostream &out,
             const BasicGraph &G);
 
@@ -81,6 +82,28 @@ class GraphIO
 
     static void output_list_ascii(ostream &out,
             const IntegerWeightedGraph &G);
+
+    template <typename graph_t>
+    static string output_list_ascii_string(ostream &out,
+            const graph_t &G);
+
+    // conversions
+
+    static void symmetric_closure(BasicGraph *pBasic,
+            const DirectedGraph &directed);
+
+    // named graphs
+    static void path(BasicGraph *pG, int n);
+    static void path(BasicGraph *pG, PartitionNest *pPi, int n);
+
+    static void directed_path(DirectedGraph *pG, int n);
+    static void directed_path(DirectedGraph *pG, PartitionNest *pPi, int n);
+
+    template <typename graph_t>
+    static void null(graph_t *pG, int n);
+
+    template <typename graph_t>
+    static void null(graph_t *pG, PartitionNest *pPi, int n);
 
  private:
     // returns false if cannot read any of the graph (eof)

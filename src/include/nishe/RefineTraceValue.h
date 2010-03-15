@@ -48,6 +48,23 @@ class RefineTraceValue
         return clear_;
     }
 
+    void set_clear(bool flag)
+    {
+        clear_ = flag;
+    }
+
+    void push_active_index(int k)
+    {
+        active_indices.push_back(k);
+        adjacent_nbhr_sums.resize(active_indices.size() );
+    }
+
+    void resize(int n)
+    {
+        active_indices.resize(n);
+        adjacent_nbhr_sums.resize(n);
+    }
+
     bool clear_;
 
     // the set of indices which became active in refinement
