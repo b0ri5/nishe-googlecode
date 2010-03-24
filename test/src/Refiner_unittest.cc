@@ -46,11 +46,11 @@ TEST_F(RefinerTest, RefineTraceValueCompare)
     EXPECT_EQ(-1, b.cmp(a) );
 
     // now add some nbhr sums
-    a.adjacent_nbhr_sums.resize(1);
-    a.adjacent_nbhr_sums[0].push_back(
-            BasicRefineTraceValue::index_nbhr_sum(1, 1) );
+    a.adjacent_attr_sums.resize(1);
+    a.adjacent_attr_sums[0].push_back(
+            BasicRefineTraceValue::index_attr_sum(1, 1) );
     b.active_indices[0] = 1;
-    b.adjacent_nbhr_sums.resize(1);
+    b.adjacent_attr_sums.resize(1);
 
     // now we have
     // a - 1: 1,1
@@ -58,28 +58,28 @@ TEST_F(RefinerTest, RefineTraceValueCompare)
     EXPECT_EQ(1, a.cmp(b) );
     EXPECT_EQ(-1, b.cmp(a) );
 
-    b.adjacent_nbhr_sums[0].push_back(
-            BasicRefineTraceValue::index_nbhr_sum(1, 1) );
+    b.adjacent_attr_sums[0].push_back(
+            BasicRefineTraceValue::index_attr_sum(1, 1) );
     EXPECT_EQ(0, a.cmp(b) );
 
-    b.adjacent_nbhr_sums[0][0].first = 0;
+    b.adjacent_attr_sums[0][0].first = 0;
 
     // a - 1: 1,1
     // b - 1: 0,1
     EXPECT_EQ(1, a.cmp(b) );
     EXPECT_EQ(-1, b.cmp(a) );
 
-    b.adjacent_nbhr_sums[0][0].first = 1;
-    b.adjacent_nbhr_sums[0].push_back(
-            BasicRefineTraceValue::index_nbhr_sum(2, 1) );
+    b.adjacent_attr_sums[0][0].first = 1;
+    b.adjacent_attr_sums[0].push_back(
+            BasicRefineTraceValue::index_attr_sum(2, 1) );
 
     // a - 1: 1,1
     // b - 1: 1,1 2,1
     EXPECT_EQ(-1, a.cmp(b) );
     EXPECT_EQ(1, b.cmp(a) );
 
-    a.adjacent_nbhr_sums[0].push_back(
-            BasicRefineTraceValue::index_nbhr_sum(2, 1) );
+    a.adjacent_attr_sums[0].push_back(
+            BasicRefineTraceValue::index_attr_sum(2, 1) );
     EXPECT_EQ(0, a.cmp(b) );
 }
 

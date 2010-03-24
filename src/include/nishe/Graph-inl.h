@@ -20,7 +20,7 @@ bool is_automorphism(const graph_t &G, const int *x)
             return false;
         }
 
-        map<vertex_t, typename graph_t::degree> nbhd_image;
+        map<vertex_t, typename graph_t::attr> nbhd_image;
         const typename graph_t::nbhr *nbhd = G.get_nbhd(u);
 
         // collect v_x, degree for v in u's nbhd
@@ -29,7 +29,7 @@ bool is_automorphism(const graph_t &G, const int *x)
             vertex_t v = G.nbhr_vertex(nbhd[i]);
             vertex_t v_x = x[v];
 
-            nbhd_image[v_x] = G.nbhr_degree(nbhd[i]);
+            nbhd_image[v_x] = G.nbhr_attr(nbhd[i]);
         }
 
         nbhd = G.get_nbhd(u_x);
@@ -46,7 +46,7 @@ bool is_automorphism(const graph_t &G, const int *x)
             }
 
             // verify that v's degree is equal to the images
-            if (nbhd_image[v] != G.nbhr_degree(nbhd[i]) )
+            if (nbhd_image[v] != G.nbhr_attr(nbhd[i]) )
             {
                 return false;
             }

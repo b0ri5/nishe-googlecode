@@ -20,15 +20,15 @@ bool is_automorphism(const graph_t &G, const int *x);
 
 /*
  * The graph class must provide the ability to iterate over the neighbors
- * of a vertex, and define the type used to sum its degrees.
+ * of a vertex.
  */
-template<typename nbhr_t, typename nbhr_sum_t, typename degree_t>
+template<typename nbhr_t, typename attr_t, typename attr_sum_t>
 class Graph
 {
  public:
     typedef nbhr_t nbhr;
-    typedef nbhr_sum_t nbhr_sum;
-    typedef degree_t degree;
+    typedef attr_t attr;
+    typedef attr_sum_t attr_sum;
 
     const nbhr_t *get_nbhd(vertex_t u) const
     {
@@ -51,8 +51,7 @@ class Graph
     }
 
     virtual vertex_t nbhr_vertex(const nbhr_t &nbhr) const = 0;
-    virtual degree_t nbhr_degree(const nbhr_t &nbhr) const = 0;
-
+    virtual attr_t nbhr_attr(const nbhr_t &nbhr) const = 0;
 
     // increases the number of vertices to u if needed
     // (also adds all vertices less than u)

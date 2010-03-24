@@ -31,7 +31,7 @@ struct InOutBoth
  * and the degree sums are triplets of nonnegative integers (in, out, both)
  */
 class DirectedGraph
-    : public Graph< std::pair<vertex_t, size_t>, InOutBoth, size_t>
+    : public Graph< std::pair<vertex_t, size_t>, size_t, InOutBoth>
 {
  public:
     static const size_t IN;
@@ -47,7 +47,7 @@ class DirectedGraph
         return nbhr.first;
     }
 
-    DirectedGraph::degree nbhr_degree(const DirectedGraph::nbhr &nbhr) const
+    DirectedGraph::attr nbhr_attr(const DirectedGraph::nbhr &nbhr) const
     {
         return nbhr.second;
     }

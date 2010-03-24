@@ -31,7 +31,7 @@ class BasicGraph : public Graph<vertex_t, size_t, size_t>
         return nbhr;
     }
 
-    BasicGraph::degree nbhr_degree(const BasicGraph::nbhr &nbhr) const
+    BasicGraph::attr nbhr_attr(const BasicGraph::nbhr &nbhr) const
     {
         return 1;
     }

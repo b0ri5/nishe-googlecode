@@ -21,13 +21,13 @@ void graphs(int argc, char **argv)
 {
 	BasicGraph g;
 	IntegerWeightedGraph weighted_graph;
-	IntegerWeightedGraph::nbhr_sum nbhr_sum;
-	IntegerWeightedGraph::nbhr_sum a;
+	IntegerWeightedGraph::attr_sum attr_sum;
+	IntegerWeightedGraph::attr_sum a;
 
 	cout << typeid(weighted_graph).name() << endl;
-	cout << typeid(nbhr_sum).name() << endl;
+	cout << typeid(attr_sum).name() << endl;
 
-	nbhr_sum < a;
+	attr_sum < a;
 }
 
 void sb(int argc, char **argv)

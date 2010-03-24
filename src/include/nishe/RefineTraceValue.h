@@ -39,7 +39,7 @@ class RefineTraceValue
     void clear()
     {
         active_indices.clear();
-        adjacent_nbhr_sums.clear();
+        adjacent_attr_sums.clear();
         clear_ = true;
     }
 
@@ -56,13 +56,13 @@ class RefineTraceValue
     void push_active_index(int k)
     {
         active_indices.push_back(k);
-        adjacent_nbhr_sums.resize(active_indices.size() );
+        adjacent_attr_sums.resize(active_indices.size() );
     }
 
     void resize(int n)
     {
         active_indices.resize(n);
-        adjacent_nbhr_sums.resize(n);
+        adjacent_attr_sums.resize(n);
     }
 
     bool clear_;
@@ -70,11 +70,11 @@ class RefineTraceValue
     // the set of indices which became active in refinement
     vector<int> active_indices;
 
-    // pair of an index and the nbhr_sum the affected index had in it
-    typedef pair<int, typename graph_t::nbhr_sum> index_nbhr_sum;
+    // pair of an index and the attr_sum the affected index had in it
+    typedef pair<int, typename graph_t::attr_sum> index_attr_sum;
 
     // for each affected index, stores the list list of index_sums
-    vector< vector<index_nbhr_sum> > adjacent_nbhr_sums;
+    vector< vector<index_attr_sum> > adjacent_attr_sums;
 };
 
 template <typename T>
@@ -108,25 +108,25 @@ int RefineTraceValue<graph_t>::cmp(const RefineTraceValue<graph_t> &b)
             return compare(active_indices[i], b.active_indices[i]);
         }
 
-        const vector<index_nbhr_sum> &nbhr_sums = adjacent_nbhr_sums.at(i);
-        const vector<index_nbhr_sum> &b_nbhr_sums = b.adjacent_nbhr_sums.at(i);
+        const vector<index_attr_sum> &attr_sums = adjacent_attr_sums.at(i);
+        const vector<index_attr_sum> &b_attr_sums = b.adjacent_attr_sums.at(i);
 
-        for (int j = 0; j < nbhr_sums.size(); j++)
+        for (int j = 0; j < attr_sums.size(); j++)
         {
             // if there are not enough adjacent nbhr sums
-            if (b_nbhr_sums.size() <= j)
+            if (b_attr_sums.size() <= j)
             {
                 return 1;
             }
 
-            if (nbhr_sums[j] != b_nbhr_sums[j])
+            if (attr_sums[j] != b_attr_sums[j])
             {
-                return compare(nbhr_sums[j], b_nbhr_sums[j]);
+                return compare(attr_sums[j], b_attr_sums[j]);
             }
         }
 
         // if we still have more in b
-        if (nbhr_sums.size() < b_nbhr_sums.size() )
+        if (attr_sums.size() < b_attr_sums.size() )
         {
             return -1;
         }

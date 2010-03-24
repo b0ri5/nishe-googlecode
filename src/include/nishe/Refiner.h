@@ -62,7 +62,7 @@ class Refiner
             int *pNbhrSumCount, int *cmp_ptr);
 
     // the place to sow nbhrs in
-    vector<typename graph_t::nbhr_sum> nbhr_sums;
+    vector<typename graph_t::attr_sum> attr_sums;
 };
 
 }  // namespace nishe

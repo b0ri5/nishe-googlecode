@@ -14,7 +14,7 @@
 namespace nishe {
 
 class IntegerWeightedGraph : public Graph<std::pair<vertex_t, int>,
-    MapDegreeSum<int>, int >
+    int, MapDegreeSum<int> >
 {
  public:
     bool add_weighted_edge(vertex_t u, vertex_t v, int weight);
@@ -24,8 +24,8 @@ class IntegerWeightedGraph : public Graph<std::pair<vertex_t, int>,
         return nbhr.first;
     }
 
-    IntegerWeightedGraph::degree
-        nbhr_degree(const IntegerWeightedGraph::nbhr &nbhr) const
+    IntegerWeightedGraph::attr
+        nbhr_attr(const IntegerWeightedGraph::nbhr &nbhr) const
     {
         return nbhr.second;
     }
