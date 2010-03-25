@@ -116,6 +116,47 @@ bool PartitionNest::is_discrete() const
     return length() == size();
 }
 
+bool PartitionNest::is_equal_unordered(const PartitionNest &pi) const
+{
+    // check basic size/length requirements for equality
+    if (pi.size() != size() || pi.length() != length() )
+    {
+        return false;
+    }
+
+    // now check that each nontrivial cell is found in the other
+    // this necessitates that the trivial cells must be found in the other
+    // as well
+
+    int k = first_nontrivial_index();
+
+    while (k != terminal_index() )
+    {
+        int u = vElements[k];
+        int k_pi = pi.index_containing(u);
+
+        // cell sizes must be equal
+        if (cell_size(k) != pi.cell_size(k_pi) )
+        {
+            return false;
+        }
+
+        for (int i = k + 1; i < k + cell_size(k); i++)
+        {
+            u = vElements[i];
+
+            if (k_pi != pi.index_containing(u) )
+            {
+                return false;
+            }
+        }
+
+        k = next_nontrivial_index(k);
+    }
+
+    return true;
+}
+
 int PartitionNest::next_index(int k) const
 {
     return k + vCellSizes[k];
@@ -439,6 +480,13 @@ void PartitionNest::erase_index(int nStart, int k, int nStartSize, int k_size)
     }
 }
 
+void PartitionNest::input_string(string s)
+{
+    stringstream ss(s);
+
+    ss >> (*this);
+}
+
 vector<int> PartitionNest::operator[](int k) const
 {
     vector<int> v;
@@ -567,6 +615,7 @@ void process_token(string sToken, vector<int> &vElements,
 }
 
 // read in a partition like [ 1 | 0:3 | 4 5 ]
+// clears what might already be here as well
 istream &operator>> (istream &in, PartitionNest &pi)
 {
     char c = 0;

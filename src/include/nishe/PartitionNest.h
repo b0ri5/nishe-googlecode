@@ -54,6 +54,9 @@ class PartitionNest
     // return true when each cell has size one
     bool is_discrete() const;
 
+    // returns true if the cells are the same but (possible) in different order
+    bool is_equal_unordered(const PartitionNest &pi) const;
+
     // returns the next index greater than k
     // terminal_index() if no such index exists
     int next_index(int k) const;
@@ -89,6 +92,7 @@ class PartitionNest
     // splits the cell u is in, returns true if its cell was not trivial
     bool breakout(int u);
 
+    void input_string(string s);
     vector<int> operator[] (int k) const;
     string str() const;
 /*    virtual void push_all_levels() = 0;

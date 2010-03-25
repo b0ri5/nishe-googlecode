@@ -189,6 +189,7 @@ class PartitionNestTest : public ::testing::Test
 
  protected:
     PartitionNest pi;
+    PartitionNest pi2;
 };
 
 typedef PartitionNestTest PartitionNestDeathTest;
@@ -294,6 +295,50 @@ TEST_F(PartitionNestTest, BreakoutSmall)
     pi.breakout(1);
     EXPECT_STREQ("[ 1 | 0 ]", pi.str().c_str() );
     check_partition_integrity(pi);
+}
+
+TEST_F(PartitionNestTest, IsEqualUnorderedFalse)
+{
+    // check different sizes
+    pi.input_string("[ 0 ]");
+    pi2.input_string("[ 0 1 ]");
+
+    EXPECT_FALSE(pi.is_equal_unordered(pi2) );
+
+    // check different lengths
+    pi.input_string("[ 0 1 ]");
+    pi2.input_string("[ 0 | 1 ]");
+
+    EXPECT_FALSE(pi.is_equal_unordered(pi2) );
+
+    // check different cell sizes
+    pi.input_string("[ 0 | 1 2 ]");
+    pi2.input_string("[ 1 | 0 2 ]");
+
+    EXPECT_FALSE(pi.is_equal_unordered(pi2) );
+
+    // check different indices
+    pi.input_string("[ 0 1 | 2 3 ]");
+    pi2.input_string("[ 0 2 | 1 3 ]");
+
+    EXPECT_FALSE(pi.is_equal_unordered(pi2) );
+
+
+}
+
+TEST_F(PartitionNestTest, IsEqualUnorderedTrue)
+{
+    // check skip trivial
+    pi.input_string("[ 0 | 1 2 ]");
+    pi2.input_string("[ 1 2 | 0 ]");
+
+    EXPECT_TRUE(pi.is_equal_unordered(pi2) );
+
+    // check small
+    pi.input_string("[ 0 1 | 2 3 ]");
+    pi2.input_string("[ 2 3 | 0 1 ]");
+
+    EXPECT_TRUE(pi.is_equal_unordered(pi2) );
 }
 
 TEST_F(PartitionNestDeathTest, InputInvalidFirstCharacter)
