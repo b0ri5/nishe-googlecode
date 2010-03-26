@@ -119,7 +119,7 @@ TEST_F(GraphIOTest, InputListAsciiBasicGraphSmallPartition)
 TEST_F(GraphIOTest, InputListAsciiBasicGraphOneToFive)
 {
     ifstream in;
-    string filename = "data/undirected-1-5.txt";
+    string filename = "test/data/undirected-1-5.txt";
 
     in.open(filename.c_str() );
 

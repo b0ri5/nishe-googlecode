@@ -11,7 +11,7 @@
 
 #include <gtest/gtest.h>
 
-#include <iostream>
+#include <fstream>
 #include <utility>
 #include <map>
 #include <sstream>
@@ -19,6 +19,7 @@
 using std::make_pair;
 using std::map;
 using std::stringstream;
+using std::ifstream;
 
 namespace nishe {
 
@@ -153,6 +154,128 @@ TEST_F(RefinerTest, RefineSmallGreater)
     a.push_active_index(-1);
 
     EXPECT_EQ(1, refiner.refine(basic_graph, &pi, &a) );
+}
+
+TEST_F(RefinerTest, RefineP3)
+{
+    RefineTraceValue<BasicGraph> a;
+    Refiner<BasicGraph> refiner;
+    PartitionNest pi2;
+
+    GraphIO::path(&basic_graph, &pi, 3);
+
+    refiner.refine(basic_graph, &pi, &a);
+    pi2.input_string("[ 0 2 | 1 ]");
+
+    EXPECT_TRUE(pi.is_equal_unordered(pi2) );
+}
+
+TEST_F(RefinerTest, RefineP4)
+{
+    RefineTraceValue<BasicGraph> a;
+    Refiner<BasicGraph> refiner;
+    PartitionNest pi2;
+
+    GraphIO::path(&basic_graph, &pi, 4);
+
+    refiner.refine(basic_graph, &pi, &a);
+    pi2.input_string("[ 0 3 | 1 2 ]");
+
+    EXPECT_TRUE(pi.is_equal_unordered(pi2) );
+}
+
+TEST_F(RefinerTest, RefineBasicUndirected)
+{
+    ifstream in;
+    ifstream in_equitable;
+    string filename_equitable = "test/data/undirected-1-7_equitable.txt";
+    string filename = "test/data/undirected-1-7.txt";
+
+    in.open(filename.c_str() );
+
+    if (in.fail() )
+    {
+        fprintf(stderr, "couldn't open data file %s\n", filename.c_str() );
+        exit(1);
+    }
+
+    in_equitable.open(filename_equitable.c_str() );
+
+    if (in_equitable.fail() )
+    {
+        fprintf(stderr, "couldn't open data file %s\n", filename_equitable.c_str() );
+        exit(1);
+    }
+
+    bool successful_read = GraphIO::input_list_ascii(in, &basic_graph, &pi);
+    PartitionNest pi_equitable;
+    RefineTraceValue<BasicGraph> a;
+    Refiner<BasicGraph> refiner;
+
+    while (successful_read)
+    {
+        in_equitable >> pi_equitable;
+
+        //printf("%s\n%s\n", GraphIO::output_list_ascii_string(basic_graph).c_str(),
+        //        pi.str().c_str() );
+
+        a.clear();
+        refiner.refine(basic_graph, &pi, &a);
+
+        //printf("%s - %s\n", pi.str().c_str(), pi_equitable.str().c_str() );
+        ASSERT_TRUE(pi.is_equal_unordered(pi_equitable) );
+
+        successful_read = GraphIO::input_list_ascii(in, &basic_graph, &pi);
+    }
+
+    in.close();
+}
+
+TEST_F(RefinerTest, RefineBasicDirected)
+{
+    ifstream in;
+    ifstream in_equitable;
+    string filename_equitable = "test/data/directed-1-5_equitable.txt";
+    string filename = "test/data/directed-1-5.txt";
+
+    in.open(filename.c_str() );
+
+    if (in.fail() )
+    {
+        fprintf(stderr, "couldn't open data file %s\n", filename.c_str() );
+        exit(1);
+    }
+
+    in_equitable.open(filename_equitable.c_str() );
+
+    if (in_equitable.fail() )
+    {
+        fprintf(stderr, "couldn't open data file %s\n", filename_equitable.c_str() );
+        exit(1);
+    }
+
+    bool successful_read = GraphIO::input_list_ascii(in, &directed_graph, &pi);
+    PartitionNest pi_equitable;
+    RefineTraceValue<DirectedGraph> a;
+    Refiner<DirectedGraph> refiner;
+
+    while (successful_read)
+    {
+        in_equitable >> pi_equitable;
+
+        //printf("%s\n%s\n", GraphIO::output_list_ascii_string(basic_graph).c_str(),
+        //        pi.str().c_str() );
+
+        a.clear();
+        refiner.refine(directed_graph, &pi, &a);
+
+        //printf("%s - %s\n", pi.str().c_str(), pi_equitable.str().c_str() );
+        ASSERT_TRUE(pi.is_equal_unordered(pi_equitable) );
+
+        successful_read = GraphIO::input_list_ascii(in, &directed_graph, &pi);
+    }
+
+    in.close();
 }
 
 }  // namespace nishe

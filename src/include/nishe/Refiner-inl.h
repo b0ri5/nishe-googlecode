@@ -7,11 +7,13 @@
 */
 
 #include <nishe/Refiner.h>
+#include <nishe/Util.h>
 
 #include <map>
 #include <vector>
 #include <set>
 #include <algorithm>
+#include <iostream>
 
 namespace nishe {
 
@@ -102,14 +104,14 @@ static void trace_attr_sum(int active_index, int adjacent_index,
 
             // cut off everything past this active index
             trace_ptr->resize(active_index + 1);
-            trace_ptr->adjacent_attr_sums[active_index].resize(attr_sum_count);
+            trace_ptr->adjacent_attr_sums.at(active_index).resize(attr_sum_count);
         }
     }
 
     // if we're adding to the trace, just append the index and sum
     if (*cmp_ptr == -1)
     {
-        trace_ptr->adjacent_attr_sums[active_index].push_back(adjacent_sum);
+        trace_ptr->adjacent_attr_sums.at(active_index).push_back(adjacent_sum);
     }
 }
 
@@ -168,8 +170,7 @@ int Refiner<graph_t>::refine(const graph_t &G, PartitionNest *pi_ptr,
             break;
         }
 
-
-        split_with_index(k, G, pi_ptr, trace_ptr, active_indices_ptr, &cmp);
+        split_with_index(k, active_count, G, pi_ptr, trace_ptr, active_indices_ptr, &cmp);
 
         // if we observed a larger attr_sum somewhere in there
         if (cmp == 1)
@@ -188,7 +189,7 @@ int Refiner<graph_t>::refine(const graph_t &G, PartitionNest *pi_ptr,
  * indices based on the attr_sums.
  */
 template <typename graph_t>
-void Refiner<graph_t>::split_with_index(int active_index, const graph_t &G,
+void Refiner<graph_t>::split_with_index(int active_index, int active_count, const graph_t &G,
         PartitionNest *pi_ptr, RefineTraceValue<graph_t> *trace_ptr,
         vector<int> *active_indices_ptr, int *cmp_ptr)
 {
@@ -213,7 +214,7 @@ void Refiner<graph_t>::split_with_index(int active_index, const graph_t &G,
     }
 
     // sort and split each adjacent index
-    sort_and_split_indices(active_index, adjacent_indices, pi_ptr,
+    sort_and_split_indices(active_count, adjacent_indices, pi_ptr,
         trace_ptr, active_indices_ptr, cmp_ptr);
 }
 
@@ -222,7 +223,7 @@ void Refiner<graph_t>::split_with_index(int active_index, const graph_t &G,
  * if it is required.
  */
 template <typename graph_t>
-void Refiner<graph_t>::sort_and_split_indices(int active_index,
+void Refiner<graph_t>::sort_and_split_indices(int active_count,
         const set<int> &adjacent_indices,
         PartitionNest *pi_ptr, RefineTraceValue<graph_t> *trace_ptr,
         vector<int> *active_indices_ptr, int *cmp_ptr)
@@ -234,21 +235,27 @@ void Refiner<graph_t>::sort_and_split_indices(int active_index,
         it != adjacent_indices.end(); it++)
     {
         int adjacent_index = (*it);  // the adjacent index
+        int adjacent_cell_size = pi_ptr->cell_size(adjacent_index);
 
         // sort and split the cell k
-        if (pi_ptr->cell_size(adjacent_index) > 1)
+        if (adjacent_cell_size > 1)
         {
-            sort_and_split_index(active_index, adjacent_index,
+            sort_and_split_index(active_count, adjacent_index,
                     pi_ptr, trace_ptr, active_indices_ptr,
                     &attr_sum_count, cmp_ptr);
         }
         else  // pi_ptr->cell_size(k) == 1
         {
             int u = pi_ptr->elements()[adjacent_index];
-            trace_attr_sum(active_index, adjacent_index,
+            trace_attr_sum(active_count, adjacent_index,
                     attr_sums[u], attr_sum_count, trace_ptr, cmp_ptr);
+        }
 
-            // erase our tracks
+        // erase our tracks
+        for (int i = adjacent_index;
+            i < adjacent_index + adjacent_cell_size; i++)
+        {
+            int u = pi_ptr->elements()[i];
             attr_sums[u] = 0;
         }
 
@@ -308,7 +315,7 @@ static void clear_rest_of_cell(int k, int start, PartitionNest *pi_ptr,
  * Also cleans up its portion of the attr_sums.
  */
 template <typename graph_t>
-void Refiner<graph_t>::sort_and_split_index(int active_index,
+void Refiner<graph_t>::sort_and_split_index(int active_count,
         int k, PartitionNest *pi_ptr,
         RefineTraceValue<graph_t> *trace_ptr,
         vector<int> *active_indices_ptr,
@@ -322,17 +329,15 @@ void Refiner<graph_t>::sort_and_split_index(int active_index,
             cmp);
 
     // go cell by cell and record when the attr_sum changes
-    int prev_k = k;
     int u = pi_ptr->elements()[k];
     typename graph_t::attr_sum *prev_attr_sum_ptr = &attr_sums[u];
 
     // check the first cell
-    trace_attr_sum(active_index, k, *prev_attr_sum_ptr, *attr_sum_count_ptr,
+    trace_attr_sum(active_count, k, *prev_attr_sum_ptr, *attr_sum_count_ptr,
             trace_ptr, cmp_ptr);
 
     if (*cmp_ptr == 1)
     {
-        clear_rest_of_cell(k, k, pi_ptr, &attr_sums);
         return;
     }
 
@@ -354,18 +359,14 @@ void Refiner<graph_t>::sort_and_split_index(int active_index,
             prev_attr_sum_ptr = &attr_sums[u];
 
             // see if the trace checks out
-            trace_attr_sum(active_index, i, *prev_attr_sum_ptr,
+            trace_attr_sum(active_count, i, *prev_attr_sum_ptr,
                     *attr_sum_count_ptr, trace_ptr, cmp_ptr);
             *attr_sum_count_ptr += 1;
 
             if (*cmp_ptr == 1)
             {
-                clear_rest_of_cell(k, i, pi_ptr, &attr_sums);
                 return;
             }
-
-            // erase our tracks
-            attr_sums[u] = 0;
         }
     }
 

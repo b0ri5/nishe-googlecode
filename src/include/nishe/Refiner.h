@@ -46,17 +46,17 @@ class Refiner
         RefineTraceValue<graph_t> *trace_ptr,
         vector<int> *active_indices_ptr);
 
-    void split_with_index(int active_index,
+    void split_with_index(int active_index, int active_count,
             const graph_t &G, PartitionNest *pi_ptr,
             RefineTraceValue<graph_t> *trace_ptr,
             vector<int> *active_indices_ptr, int *cmp_ptr);
 
-    void sort_and_split_indices(int active_index,
+    void sort_and_split_indices(int active_count,
             const set<int> &adjacent_indices,
             PartitionNest *pi_ptr, RefineTraceValue<graph_t> *trace_ptr,
             vector<int> *active_indices_ptr, int *cmp_ptr);
 
-    void sort_and_split_index(int active_index,
+    void sort_and_split_index(int active_count,
             int adjacent_index, PartitionNest *pi_ptr,
             RefineTraceValue<graph_t> *trace_ptr, vector<int> *active_indices_ptr,
             int *pNbhrSumCount, int *cmp_ptr);

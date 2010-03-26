@@ -32,7 +32,7 @@ class Graph
 
     const nbhr_t *get_nbhd(vertex_t u) const
     {
-        return &vNbhds.at(u).at(0);
+        return &vNbhds.at(u).front();
     }
 
     size_t get_nbhd_size(vertex_t u) const

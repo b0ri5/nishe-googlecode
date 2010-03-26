@@ -84,8 +84,7 @@ class GraphIO
             const IntegerWeightedGraph &G);
 
     template <typename graph_t>
-    static string output_list_ascii_string(ostream &out,
-            const graph_t &G);
+    static string output_list_ascii_string(const graph_t &G);
 
     // conversions
 

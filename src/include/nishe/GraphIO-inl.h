@@ -31,8 +31,7 @@ static bool is_whitespace(string s)
 }
 
 template <typename graph_t>
-string GraphIO::output_list_ascii_string(ostream &out,
-        const graph_t &G)
+string GraphIO::output_list_ascii_string(const graph_t &G)
 {
     stringstream ss;
 
