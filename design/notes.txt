@@ -1,3 +1,15 @@
+We need a method of taking impure cells and making them more pure. Rather
+than call this "purify" which will be in general what happens, we call this
+"filter" because that's pretty much what it does. 
+
+"""
+    Should filter the cell at index k of pi. If the
+    smallest discriminating guide path is none, the sdgp should be found
+    automatically. 
+"""
+def filter(G, pi, k, curr, sdgp = None):
+
+
 here's how I'd like to do the sowing part of the refinement method:
 
 for v in nbhd(u):

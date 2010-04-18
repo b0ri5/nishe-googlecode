@@ -25,7 +25,61 @@ namespace nishe {
 
 class RefinerTest : public BaseNisheTest
 {
+    // I wish I had the guts to tell my gf how i feel about her;
+    // I wish I could express how my heart skips a beat whenever I gaze into her eyes;
+    // I wish I could tell her I'm gay.
 
+public:
+    template <typename graph_t>
+    void verify_equitibility(string graphfile, graph_t *G_ptr)
+    {
+        ifstream in;
+        ifstream in_equitable;
+
+        int dotloc = graphfile.rfind('.');
+
+        string graphfile_equitable = graphfile.substr(0, graphfile.rfind('.') )
+            + "_equitable.txt";
+
+        in.open(graphfile.c_str() );
+
+        if (in.fail() )
+        {
+            fprintf(stderr, "couldn't open data file %s\n", graphfile.c_str() );
+            exit(1);
+        }
+
+        in_equitable.open(graphfile_equitable.c_str() );
+
+        if (in_equitable.fail() )
+        {
+            fprintf(stderr, "couldn't open data file %s\n",
+                    graphfile_equitable.c_str() );
+            exit(1);
+        }
+
+        PartitionNest pi;
+        PartitionNest pi_equitable;
+        RefineTraceValue<graph_t> a;
+        Refiner<graph_t> refiner;
+
+        bool successful_read = GraphIO::input_list_ascii(in, G_ptr, &pi);
+
+        while (successful_read)
+        {
+            in_equitable >> pi_equitable;
+
+            refiner.refine(*G_ptr, &pi, &a);
+            a.clear();
+
+            ASSERT_TRUE(pi.is_equal_unordered(pi_equitable) );
+
+            successful_read = GraphIO::input_list_ascii(in, G_ptr, &pi);
+        }
+
+        in.close();
+        in_equitable.close();
+    }
 };
 
 TEST_F(RefinerTest, RefineTraceValueCompare)
@@ -184,98 +238,14 @@ TEST_F(RefinerTest, RefineP4)
     EXPECT_TRUE(pi.is_equal_unordered(pi2) );
 }
 
-TEST_F(RefinerTest, RefineBasicUndirected)
+TEST_F(RefinerTest, RefineBasicSmallX)
 {
-    ifstream in;
-    ifstream in_equitable;
-    string filename_equitable = "test/data/undirected-1-7_equitable.txt";
-    string filename = "test/data/undirected-1-7.txt";
-
-    in.open(filename.c_str() );
-
-    if (in.fail() )
-    {
-        fprintf(stderr, "couldn't open data file %s\n", filename.c_str() );
-        exit(1);
-    }
-
-    in_equitable.open(filename_equitable.c_str() );
-
-    if (in_equitable.fail() )
-    {
-        fprintf(stderr, "couldn't open data file %s\n", filename_equitable.c_str() );
-        exit(1);
-    }
-
-    bool successful_read = GraphIO::input_list_ascii(in, &basic_graph, &pi);
-    PartitionNest pi_equitable;
-    RefineTraceValue<BasicGraph> a;
-    Refiner<BasicGraph> refiner;
-
-    while (successful_read)
-    {
-        in_equitable >> pi_equitable;
-
-        //printf("%s\n%s\n", GraphIO::output_list_ascii_string(basic_graph).c_str(),
-        //        pi.str().c_str() );
-
-        a.clear();
-        refiner.refine(basic_graph, &pi, &a);
-
-        //printf("%s - %s\n", pi.str().c_str(), pi_equitable.str().c_str() );
-        ASSERT_TRUE(pi.is_equal_unordered(pi_equitable) );
-
-        successful_read = GraphIO::input_list_ascii(in, &basic_graph, &pi);
-    }
-
-    in.close();
+    verify_equitibility("test/data/undirected-1-7.txt", &basic_graph);
 }
 
-TEST_F(RefinerTest, RefineBasicDirected)
+TEST_F(RefinerTest, RefineDirectedSmallX)
 {
-    ifstream in;
-    ifstream in_equitable;
-    string filename_equitable = "test/data/directed-1-5_equitable.txt";
-    string filename = "test/data/directed-1-5.txt";
-
-    in.open(filename.c_str() );
-
-    if (in.fail() )
-    {
-        fprintf(stderr, "couldn't open data file %s\n", filename.c_str() );
-        exit(1);
-    }
-
-    in_equitable.open(filename_equitable.c_str() );
-
-    if (in_equitable.fail() )
-    {
-        fprintf(stderr, "couldn't open data file %s\n", filename_equitable.c_str() );
-        exit(1);
-    }
-
-    bool successful_read = GraphIO::input_list_ascii(in, &directed_graph, &pi);
-    PartitionNest pi_equitable;
-    RefineTraceValue<DirectedGraph> a;
-    Refiner<DirectedGraph> refiner;
-
-    while (successful_read)
-    {
-        in_equitable >> pi_equitable;
-
-        //printf("%s\n%s\n", GraphIO::output_list_ascii_string(basic_graph).c_str(),
-        //        pi.str().c_str() );
-
-        a.clear();
-        refiner.refine(directed_graph, &pi, &a);
-
-        //printf("%s - %s\n", pi.str().c_str(), pi_equitable.str().c_str() );
-        ASSERT_TRUE(pi.is_equal_unordered(pi_equitable) );
-
-        successful_read = GraphIO::input_list_ascii(in, &directed_graph, &pi);
-    }
-
-    in.close();
+    verify_equitibility("test/data/directed-1-5.txt", &directed_graph);
 }
 
 }  // namespace nishe
