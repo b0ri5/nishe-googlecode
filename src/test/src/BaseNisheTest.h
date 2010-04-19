@@ -1,10 +1,21 @@
 #ifndef _BASE_NISHE_TEST_H_
 #define _BASE_NISHE_TEST_H_
 
+/*
+    Copyright 2010 Greg Tener
+    Released under the Lesser General Public License v3.
+*/
+
 #include <nishe/PartitionNest.h>
 #include <nishe/Graphs.h>
+#include <nishe/GraphIO.h>
 
 #include <gtest/gtest.h>
+
+#include <string>
+#include <sstream>
+
+using std::stringstream;
 
 namespace nishe {
 

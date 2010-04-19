@@ -3,10 +3,11 @@
     Released under the Lesser General Public License v3.
 */
 
+#include "BaseNisheTest.h"
+
 #include <nishe/Graphs.h>
 #include <nishe/GraphIO-inl.h>
 #include <nishe/Util.h>
-#include "BaseNisheTest.h"
 
 #include <gtest/gtest.h>
 
@@ -119,7 +120,7 @@ TEST_F(GraphIOTest, InputListAsciiBasicGraphSmallPartition)
 TEST_F(GraphIOTest, InputListAsciiBasicGraphOneToFive)
 {
     ifstream in;
-    string filename = "test/data/undirected-1-5.txt";
+    string filename = "src/test/data/undirected-1-5.txt";
 
     in.open(filename.c_str() );
 

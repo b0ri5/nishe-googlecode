@@ -1,6 +1,15 @@
+#ifndef _GRAPH_INL_H_
+#define _GRAPH_INL_H_
+
+/*
+    Copyright 2010 Greg Tener
+    Released under the Lesser General Public License v3.
+*/
+
 #include <nishe/Graph.h>
 
 #include <set>
+#include <map>
 
 using std::set;
 
@@ -57,3 +66,5 @@ bool is_automorphism(const graph_t &G, const int *x)
 }
 
 }  // namespace nishe
+
+#endif  // _GRAPH_INL_H_

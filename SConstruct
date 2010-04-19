@@ -26,8 +26,8 @@ profile_env = checks.config_profile(env)
 Export({'env': debug_env, 'libsuffix': '-db'})
 debug_env.SConscript('src/SConscript',
 					build_dir='build/debug', duplicate=0)
-debug_env.SConscript('test/SConscript',
-					build_dir='build/test/debug', duplicate=0)
+#debug_env.SConscript('test/SConscript',
+#					build_dir='build/test/debug', duplicate=0)
 
 #Export({'env': release_env, 'libsuffix': ''})
 #release_env.SConscript('src/SConscript', build_dir='build/release', duplicate=0)

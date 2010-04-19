@@ -39,7 +39,8 @@ class Refiner
 {
  public:
     int refine(const graph_t &G, PartitionNest *pi_ptr,
-            RefineTraceValue<graph_t> *trace_ptr, int initial_active_index = -1);
+            RefineTraceValue<graph_t> *trace_ptr,
+            int initial_active_index = -1);
 
  private:
     int refine(const graph_t &G, PartitionNest *pi_ptr,
@@ -58,7 +59,8 @@ class Refiner
 
     void sort_and_split_index(int active_count,
             int adjacent_index, PartitionNest *pi_ptr,
-            RefineTraceValue<graph_t> *trace_ptr, vector<int> *active_indices_ptr,
+            RefineTraceValue<graph_t> *trace_ptr,
+            vector<int> *active_indices_ptr,
             int *pNbhrSumCount, int *cmp_ptr);
 
     // the place to sow nbhrs in

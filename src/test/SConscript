@@ -11,4 +11,4 @@ unittests = env.Program('bin/%s' % (unittests_name),
 
 env.Depends(unittests, nishe_lib)
 env.InstallAs(target = '#/bin/%s' % (unittests_name),
-		source = unittests) 
+		source = unittests)

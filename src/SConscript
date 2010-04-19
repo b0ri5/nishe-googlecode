@@ -16,5 +16,7 @@ Export('libnishe_name', 'nishe_lib')
 
 env.SConscript('nishe/bin/SConscript')
 
+env.SConscript('test/SConscript')
+
 #env.SConscript('pnishe/SConscript')
 #Import('pnishe_objs')

@@ -104,7 +104,8 @@ static void trace_attr_sum(int active_index, int adjacent_index,
 
             // cut off everything past this active index
             trace_ptr->resize(active_index + 1);
-            trace_ptr->adjacent_attr_sums.at(active_index).resize(attr_sum_count);
+            trace_ptr->adjacent_attr_sums.at(
+                    active_index).resize(attr_sum_count);
         }
     }
 
@@ -170,7 +171,8 @@ int Refiner<graph_t>::refine(const graph_t &G, PartitionNest *pi_ptr,
             break;
         }
 
-        split_with_index(k, active_count, G, pi_ptr, trace_ptr, active_indices_ptr, &cmp);
+        split_with_index(k, active_count, G, pi_ptr, trace_ptr,
+                active_indices_ptr, &cmp);
 
         // if we observed a larger attr_sum somewhere in there
         if (cmp == 1)
@@ -189,9 +191,10 @@ int Refiner<graph_t>::refine(const graph_t &G, PartitionNest *pi_ptr,
  * indices based on the attr_sums.
  */
 template <typename graph_t>
-void Refiner<graph_t>::split_with_index(int active_index, int active_count, const graph_t &G,
-        PartitionNest *pi_ptr, RefineTraceValue<graph_t> *trace_ptr,
-        vector<int> *active_indices_ptr, int *cmp_ptr)
+void Refiner<graph_t>::split_with_index(int active_index, int active_count,
+        const graph_t &G, PartitionNest *pi_ptr,
+        RefineTraceValue<graph_t> *trace_ptr, vector<int> *active_indices_ptr,
+        int *cmp_ptr)
 {
     set<int> adjacent_indices;
 
@@ -288,7 +291,8 @@ struct NbhrSumComparator
 {
     vector<typename graph_t::attr_sum> *attr_sums_ptr;
 
-    explicit NbhrSumComparator(vector<typename graph_t::attr_sum> *attr_sums_ptr)
+    explicit NbhrSumComparator(
+            vector<typename graph_t::attr_sum> *attr_sums_ptr)
         : attr_sums_ptr(attr_sums_ptr)
     {
     };

@@ -200,7 +200,7 @@ typedef PartitionNestTest PartitionNestDeathTest;
 TEST_F(PartitionNestTest, CheckPartitionIntegrityOneToSix)
 {
     ifstream in;
-    string filename = "test/data/partitions-1-6.txt";
+    string filename = "src/test/data/partitions-1-6.txt";
 
     in.open(filename.c_str() );
 

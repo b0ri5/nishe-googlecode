@@ -26,6 +26,9 @@ template<typename nbhr_t, typename attr_t, typename attr_sum_t>
 class Graph
 {
  public:
+
+    virtual ~Graph() {}
+
     typedef nbhr_t nbhr;
     typedef attr_t attr;
     typedef attr_sum_t attr_sum;
