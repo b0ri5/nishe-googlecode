@@ -84,6 +84,29 @@ class GraphIOTest : public BaseNisheTest
 
         EXPECT_DEATH(input_graph(pG, s), ss.str() );
     }
+
+    template <typename graph_t>
+    void verify_input_list_ascii(graph_t *G_ptr, string filename)
+    {
+        ifstream in;
+
+        in.open(filename.c_str() );
+
+        if (in.fail() )
+        {
+            fprintf(stderr, "couldn't open data file %s\n", filename.c_str() );
+            exit(1);
+        }
+
+        bool successful_read = GraphIO::input_list_ascii(in, G_ptr, &pi);
+
+        while (successful_read)
+        {
+            successful_read = GraphIO::input_list_ascii(in, G_ptr, &pi);
+        }
+
+        in.close();
+    }
 };
 
 
@@ -119,25 +142,12 @@ TEST_F(GraphIOTest, InputListAsciiBasicGraphSmallPartition)
 
 TEST_F(GraphIOTest, InputListAsciiBasicGraphOneToFive)
 {
-    ifstream in;
-    string filename = "src/test/data/undirected-1-5.txt";
+    verify_input_list_ascii(&basic_graph, "src/test/data/undirected-1-5.txt");
+}
 
-    in.open(filename.c_str() );
-
-    if (in.fail() )
-    {
-        fprintf(stderr, "couldn't open data file %s\n", filename.c_str() );
-        exit(1);
-    }
-
-    bool successful_read = GraphIO::input_list_ascii(in, &basic_graph, &pi);
-
-    while (successful_read)
-    {
-        successful_read = GraphIO::input_list_ascii(in, &basic_graph, &pi);
-    }
-
-    in.close();
+TEST_F(GraphIOTest, InputListAsciiDirectedGraphOneToFive)
+{
+    verify_input_list_ascii(&directed_graph, "src/test/data/directed-1-5.txt");
 }
 
 // input a small graph and make sure it checks out
