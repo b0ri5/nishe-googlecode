@@ -1,8 +1,15 @@
+import os
+
 Import('*')
 
-env.SConscript('src/SConscript')
+# get a list of source files
+unittest_src = set()
 
-Import('unittest_objs')
+for f in env.Glob('*.cc'):
+	path, file = os.path.split(str(f) )
+	unittest_src.add(file)
+	
+unittest_objs = env.Object(list(unittest_src) )
 
 unittests_name = 'NisheUnittests%s' % (libsuffix)
 unittests = env.Program('bin/%s' % (unittests_name),

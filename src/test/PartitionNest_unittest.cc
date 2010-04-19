@@ -322,8 +322,6 @@ TEST_F(PartitionNestTest, IsEqualUnorderedFalse)
     pi2.input_string("[ 0 2 | 1 3 ]");
 
     EXPECT_FALSE(pi.is_equal_unordered(pi2) );
-
-
 }
 
 TEST_F(PartitionNestTest, IsEqualUnorderedTrue)

@@ -3,11 +3,12 @@
     Released under the Lesser General Public License v3.
 */
 
+#include <nishe/test/BaseNisheTest.h>
+
 #include <nishe/Graphs.h>
 #include <nishe/Graph-inl.h>
 #include <nishe/GraphIO.h>
 #include <nishe/Util.h>
-#include "BaseNisheTest.h"
 
 #include <gtest/gtest.h>
 

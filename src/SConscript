@@ -2,6 +2,7 @@
 Import('*')
 
 env.AppendUnique(CPPPATH = ['#src/include'] )
+env.AppendUnique(CPPPATH = ['#src/test/include'] )
 
 env.SConscript('nishe/SConscript')
 

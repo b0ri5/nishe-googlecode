@@ -3,7 +3,7 @@
     Released under the Lesser General Public License v3.
 */
 
-#include "BaseNisheTest.h"
+#include <nishe/test/BaseNisheTest.h>
 
 #include <nishe/Graphs.h>
 #include <nishe/GraphIO-inl.h>
