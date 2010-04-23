@@ -241,12 +241,12 @@ TEST_F(RefinerTest, RefineP4)
 
 TEST_F(RefinerTest, RefineBasicSmall)
 {
-    verify_equitibility("src/test/data/undirected-1-7.txt", &basic_graph);
+    verify_equitibility("test/data/undirected-1-7.txt", &basic_graph);
 }
 
 TEST_F(RefinerTest, RefineDirectedSmall)
 {
-    verify_equitibility("src/test/data/directed-1-5.txt", &directed_graph);
+    verify_equitibility("test/data/directed-1-5.txt", &directed_graph);
 }
 
 }  // namespace nishe

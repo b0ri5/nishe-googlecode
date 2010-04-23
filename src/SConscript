@@ -1,23 +1,28 @@
-# use the env and libsuffix global variables
+import checks
+import os
+
 Import('*')
 
-env.AppendUnique(CPPPATH = ['#src/include'] )
-env.AppendUnique(CPPPATH = ['#src/test/include'] )
+env.AppendUnique(CPPPATH = ['#include'] )
 
-env.SConscript('nishe/SConscript')
+# get a list of source files
+srcs = set()
 
-Import('nishe_objs')
+for f in env.Glob('*.cc'):
+	path, file = os.path.split(str(f) )
+	srcs.add(file)
 
-libnishe_name = 'nishe%s' % (libsuffix)
-nishe_lib = env.StaticLibrary('#/lib/%s' % (libnishe_name), [nishe_objs] )
-env.Alias('lib' + libnishe_name, nishe_lib)
+# remove the hrtime file since we don't want to compile it just yet
+srcs.remove('hrtime.cc')
 
-# export the library name and the library so that executables can make use of them
-Export('libnishe_name', 'nishe_lib')
+# compile them into object files
+objs = env.Object(list(srcs) )
 
-env.SConscript('nishe/bin/SConscript')
+merged_env = checks.merge_hrtime(env, hrtime_env)
+objs.append(merged_env.Object('hrtime.cc') )
 
-env.SConscript('test/SConscript')
+lib_name = 'nishe%s' % (libsuffix)
+lib = env.StaticLibrary('#/lib/%s' % (lib_name), [objs] )
+env.Alias('lib' + lib_name, lib)
 
-#env.SConscript('pnishe/SConscript')
-#Import('pnishe_objs')
+Export('lib_name', 'lib')

@@ -1,0 +1,17 @@
+import os
+
+Import('*')
+
+# get a list of source files
+unittest_src = set()
+
+for f in env.Glob('*.cc'):
+  path, file = os.path.split(str(f) )
+  name, ext = os.path.splitext(file)
+  unittest = env.Program(file,
+						  LIBPATH = ['#/lib'],
+						  LIBS = [lib_name, 'gtest', 'gtest_main'])
+  unittest_name = '%s%s' % (name, libsuffix)
+  env.Depends(unittest, lib)
+  env.InstallAs(target = '#/bin/test/%s' % (unittest_name),
+							  source = unittest )
