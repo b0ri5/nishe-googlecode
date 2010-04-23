@@ -14,17 +14,19 @@ namespace nishe {
 
 bool BasicGraph::add_edge(vertex_t u, vertex_t v)
 {
+    return add_arc(u, v) && add_arc(v, u);
+}
+
+bool BasicGraph::add_arc(vertex_t u, vertex_t v)
+{
     add_vertex(std::max(u, v) );
 
-    vector<BasicGraph::nbhr> &vNbhd = vNbhds.at(u);
+    int k = find_nbhr(u, v);
 
     // if v is not in u's nbhd yet
-    if (find(vNbhd.begin(), vNbhd.end(), v) == vNbhd.end() )
+    if (k == NOT_FOUND)
     {
-        vNbhd.push_back(v);
-
-        // this means u also should be in v's nbhd
-        vNbhds.at(v).push_back(u);
+        vNbhds.at(u).push_back(v);
 
         return true;
     }

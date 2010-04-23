@@ -2,8 +2,8 @@
 #define _MAP_DEGREE_SUM_H_
 
 /*
-    Copyright 2010 Greg Tener
-    Released under the Lesser General Public License v3.
+  Copyright 2010 Greg Tener
+  Released under the Lesser General Public License v3.
 */
 
 #include <sstream>
@@ -21,74 +21,78 @@ namespace nishe {
 template <typename weight_t>
 struct MapDegreeSum
 {
-    // increment the weight k's counter
-    MapDegreeSum<weight_t> &operator+=(int k)
-    {
-        weight_map[k] += 1;
+  // increment the weight k's counter
+  MapDegreeSum<weight_t> &operator+=(int k)
+  {
+    weight_map[k] += 1;
 
-        return *this;
+    return *this;
+  }
+
+  // only valid when k == 0, in which case clear
+  MapDegreeSum<weight_t> &operator=(int k)
+  {
+    if (k == 0)
+    {
+      weight_map.clear();
+    }
+    else
+    {
+      std::stringstream ss;
+      ss << k << " used instead of 0 to clear " << typeid(*this).name();
+      fail(ss.str() );
     }
 
-    // only valid when k == 0, in which case clear
-    MapDegreeSum<weight_t> &operator=(int k)
+    return *this;
+  }
+
+  // compare two mappings lexicographically
+  bool operator<(const MapDegreeSum<weight_t> &a) const
+  {
+    typename map<weight_t, size_t>::const_iterator this_it;
+    typename map<weight_t, size_t>::iterator a_it;
+
+    // compare elementwise
+    for (this_it = weight_map.begin();
+      this_it != weight_map.end(); this_it++)
     {
-        if (k == 0)
-        {
-            weight_map.clear();
-        }
-        else
-        {
-            std::stringstream ss;
-            ss << k << " used instead of 0 to clear " << typeid(*this).name();
-            fail(ss.str() );
-        }
-
-        return *this;
-    }
-
-    // compare two mappings lexicographically
-    bool operator<(const MapDegreeSum<weight_t> &a) const
-    {
-        typename map<weight_t, size_t>::const_iterator this_it;
-        typename map<weight_t, size_t>::iterator a_it;
-
-        // compare elementwise
-        for (this_it = weight_map.begin();
-            this_it != weight_map.end(); this_it++)
-        {
-            // if a_it is exhausted but this_it isn't
-            if (a_it == a.weight_map.end() )
-            {
-                return false;
-            }
-
-            // now just compare elementwise via the (weight, count) pairs
-            if ((*this_it) < (*a_it) )
-            {
-                return true;
-            }
-            else if ((*this_it) > (*a_it) )
-            {
-                return false;
-            }
-        }
-
-        // if there's still some things left over in a_it, this is smaller
-        if (a_it != a.weight_map.end() )
-        {
-            return true;
-        }
-
+      // if a_it is exhausted but this_it isn't
+      if (a_it == a.weight_map.end() )
+      {
         return false;
+      }
+
+      // now just compare elementwise via the (weight, count) pairs
+      if ((*this_it) < (*a_it) )
+      {
+        return true;
+      }
+      else if ((*this_it) > (*a_it) )
+      {
+        return false;
+      }
     }
 
-    bool operator==(const MapDegreeSum<weight_t> &a) const
+    // if there's still some things left over in a_it, this is smaller
+    if (a_it != a.weight_map.end() )
     {
-        return weight_map == a.weight_map;
+      return true;
     }
 
+    return false;
+  }
 
-    map<weight_t, size_t> weight_map;
+  bool operator==(const MapDegreeSum<weight_t> &a) const
+  {
+    return weight_map == a.weight_map;
+  }
+
+  bool operator!=(const MapDegreeSum<weight_t> &a) const
+  {
+    return weight_map != a.weight_map;
+  }
+
+  map<weight_t, size_t> weight_map;
 };
 
 }  // namespace nishe

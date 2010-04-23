@@ -83,7 +83,7 @@ bool DirectedGraph::add_arc(vertex_t u, vertex_t v)
     int k = find_nbhr(u, v);
 
     // we have a new edge
-    if (k == -1)
+    if (k == NOT_FOUND)
     {
         // add the out edge
         vNbhds.at(u).push_back(make_pair(v, DirectedGraph::OUT) );

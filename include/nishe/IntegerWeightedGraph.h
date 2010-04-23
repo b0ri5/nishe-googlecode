@@ -18,6 +18,7 @@ class IntegerWeightedGraph : public Graph<std::pair<vertex_t, int>,
 {
  public:
     bool add_weighted_edge(vertex_t u, vertex_t v, int weight);
+    bool add_weighted_arc(vertex_t u, vertex_t v, int weight);
 
     vertex_t nbhr_vertex(const IntegerWeightedGraph::nbhr &nbhr) const
     {

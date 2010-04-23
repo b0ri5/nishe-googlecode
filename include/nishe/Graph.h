@@ -32,6 +32,7 @@ class Graph
     typedef nbhr_t nbhr;
     typedef attr_t attr;
     typedef attr_sum_t attr_sum;
+    static const int NOT_FOUND;
 
     const nbhr_t *get_nbhd(vertex_t u) const
     {
@@ -77,12 +78,15 @@ class Graph
             }
         }
 
-        return -1;
+        return NOT_FOUND;
     }
 
  protected:
     std::vector< std::vector<nbhr_t> > vNbhds;
 };
+
+template<typename nbhr_t, typename attr_t, typename attr_sum_t>
+const int Graph<nbhr_t, attr_t, attr_sum_t>::NOT_FOUND = -1;
 
 }  // namespace nishe
 

@@ -60,17 +60,17 @@ class GraphIO
     // input methods
 
     static bool input_list_ascii(istream &in,
-            BasicGraph *pG, PartitionNest *pPi);
+            BasicGraph *G_ptr, PartitionNest *pi_ptr);
 
     static bool input_list_ascii(istream &in,
-            DirectedGraph *pG, PartitionNest *pPi);
+            DirectedGraph *G_ptr, PartitionNest *pi_ptr);
 
     static bool input_list_ascii(istream &in,
-            IntegerWeightedGraph *pG, PartitionNest *pPi);
+            IntegerWeightedGraph *G_ptr, PartitionNest *pi_ptr);
 
     template<typename graph_t>
     static bool input_list_ascii(string s,
-            graph_t *pG, PartitionNest *pPi);
+            graph_t *G_ptr, PartitionNest *pi_ptr);
 
     // output methods
 
@@ -91,25 +91,33 @@ class GraphIO
     static void symmetric_closure(BasicGraph *pBasic,
             const DirectedGraph &directed);
 
+    static void convert(const DirectedGraph &directed,
+        BasicGraph *basic_ptr);
+    static void convert(const DirectedGraph &directed,
+        IntegerWeightedGraph *integer_weighted_ptr);
+    static void convert(const BasicGraph &basic,
+        IntegerWeightedGraph *integer_weighted_ptr);
+
     // named graphs
-    static void path(BasicGraph *pG, int n);
-    static void path(BasicGraph *pG, PartitionNest *pPi, int n);
+    static void path(BasicGraph *G_ptr, int n);
+    static void path(BasicGraph *G_ptr, PartitionNest *pi_ptr, int n);
 
-    static void directed_path(DirectedGraph *pG, int n);
-    static void directed_path(DirectedGraph *pG, PartitionNest *pPi, int n);
-
-    template <typename graph_t>
-    static void null(graph_t *pG, int n);
+    static void directed_path(DirectedGraph *G_ptr, int n);
+    static void directed_path(DirectedGraph *G_ptr, PartitionNest *pi_ptr,
+        int n);
 
     template <typename graph_t>
-    static void null(graph_t *pG, PartitionNest *pPi, int n);
+    static void null(graph_t *G_ptr, int n);
+
+    template <typename graph_t>
+    static void null(graph_t *G_ptr, PartitionNest *pi_ptr, int n);
 
  private:
     // returns false if cannot read any of the graph (eof)
     // fails if graph is input improperly
     template <typename graph_t>
     static bool input_list_ascii(istream &in,
-            graph_t *pG, PartitionNest *pPi,
+            graph_t *G_ptr, PartitionNest *pi_ptr,
             bool (*)(graph_t *, vertex_t, string) );
 
     template <typename graph_t, typename nbhr_t>

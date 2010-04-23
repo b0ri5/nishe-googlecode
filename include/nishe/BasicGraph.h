@@ -26,6 +26,8 @@ class BasicGraph : public Graph<vertex_t, size_t, size_t>
     // or does nothing if the edge is there already (returns false)
     bool add_edge(vertex_t u, vertex_t v);
 
+    bool add_arc(vertex_t u, vertex_t v);
+
     vertex_t nbhr_vertex(const BasicGraph::nbhr &nbhr) const
     {
         return nbhr;

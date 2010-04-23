@@ -142,12 +142,12 @@ TEST_F(GraphIOTest, InputListAsciiBasicGraphSmallPartition)
 
 TEST_F(GraphIOTest, InputListAsciiBasicGraphOneToFive)
 {
-    verify_input_list_ascii(&basic_graph, "src/test/data/undirected-1-5.txt");
+    verify_input_list_ascii(&basic_graph, "test/data/undirected-1-5.txt");
 }
 
 TEST_F(GraphIOTest, InputListAsciiDirectedGraphOneToFive)
 {
-    verify_input_list_ascii(&directed_graph, "src/test/data/directed-1-5.txt");
+    verify_input_list_ascii(&directed_graph, "test/data/directed-1-5.txt");
 }
 
 // input a small graph and make sure it checks out
