@@ -1,0 +1,18 @@
+import os
+
+Import('env')
+
+cmake_rv = env.CMake('gtest-build', 'gtest-1.5.0')
+libgtest = env.CMakeLib(['gtest', 'gtest_main'], 'gtest-build')
+env.Depends(libgtest, cmake_rv)
+
+env['GTEST_LIB'] = os.path.join('#', 'third-party', str(libgtest[0].dir))
+
+# just in case gtest was built with pthreads and we need to link with "pthread"
+conf = Configure(env)
+
+conf.CheckLib('pthread', language='C++', autoadd=1)  
+
+env = conf.Finish()
+
+Export('libgtest')
