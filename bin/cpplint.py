@@ -1014,8 +1014,8 @@ def CheckForHeaderGuard(filename, lines, error):
       error_level = 5
 
 # Greg Tener: don't like full huge comments here
-#    error(filename, ifndef_linenum, 'build/header_guard', error_level,
-#          '#ifndef header guard has wrong style, please use: %s' % cppvar)
+    error(filename, ifndef_linenum, 'build/header_guard', error_level,
+          '#ifndef header guard has wrong style, please use: %s' % cppvar)
 
   if (endif != ('#endif  // %s' % cppvar) and
       not Search(r'\bNOLINT\b', lines[endif_linenum])):
@@ -1024,8 +1024,8 @@ def CheckForHeaderGuard(filename, lines, error):
       error_level = 5
 
 # Greg Tener: see above
-#    error(filename, endif_linenum, 'build/header_guard', error_level,
-#          '#endif line should be "#endif  // %s"' % cppvar)
+    error(filename, endif_linenum, 'build/header_guard', error_level,
+          '#endif line should be "#endif  // %s"' % cppvar)
 
 
 def CheckForUnicodeReplacementCharacters(filename, lines, error):
@@ -1834,18 +1834,18 @@ def CheckBraces(filename, clean_lines, linenum, error):
     # previous non-blank line is ';', ':', '{', or '}'.
     prevline = GetPreviousNonBlankLine(clean_lines, linenum)[0]
 # Greg Tener - get rid of this check because I don't like it 
-#    if not Search(r'[;:}{]\s*$', prevline):
-#      error(filename, linenum, 'whitespace/braces', 4,
-#            '{ should almost always be at the end of the previous line')
+    if not Search(r'[;:}{]\s*$', prevline):
+      error(filename, linenum, 'whitespace/braces', 4,
+            '{ should almost always be at the end of the previous line')
 
   # An else clause should be on the same line as the preceding closing brace.
  
 # Greg Tener - i also don't like this one
-#  if Match(r'\s*else\s*', line):
-#    prevline = GetPreviousNonBlankLine(clean_lines, linenum)[0]
-#    if Match(r'\s*}\s*$', prevline):
-#      error(filename, linenum, 'whitespace/newline', 4,
-#            'An else should appear on the same line as the preceding }')
+  if Match(r'\s*else\s*', line):
+    prevline = GetPreviousNonBlankLine(clean_lines, linenum)[0]
+    if Match(r'\s*}\s*$', prevline):
+      error(filename, linenum, 'whitespace/newline', 4,
+            'An else should appear on the same line as the preceding }')
 
   # If braces come on one side of an else, they should be on both.
   # However, we have to worry about "else if" that spans multiple lines!

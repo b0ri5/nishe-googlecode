@@ -3,8 +3,6 @@ import os
 
 Import('*')
 
-env.AppendUnique(CPPPATH = ['#include'] )
-
 # get a list of source files
 srcs = set()
 
@@ -16,7 +14,7 @@ for f in env.Glob('*.cc'):
 srcs.remove('hrtime.cc')
 
 # compile them into object files
-objs = env.Object(list(srcs) )
+objs = env.Object(list(srcs), CPPPATH=['#include'])
 
 merged_env = checks.merge_hrtime(env, hrtime_env)
 objs.append(merged_env.Object('hrtime.cc') )

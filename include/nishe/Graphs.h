@@ -1,5 +1,5 @@
-#ifndef _GRAPHS_H_
-#define _GRAPHS_H_
+#ifndef INCLUDE_NISHE_GRAPHS_H_
+#define INCLUDE_NISHE_GRAPHS_H_
 
 /*
 	Copyright 2010 Greg Tener
@@ -17,4 +17,4 @@
 #include <sstream>
 #include <exception>
 
-#endif  // _GRAPHS_H_
+#endif  // INCLUDE_NISHE_GRAPHS_H_

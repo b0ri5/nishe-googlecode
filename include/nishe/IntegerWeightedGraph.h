@@ -1,5 +1,5 @@
-#ifndef _INTEGER_WEIGHTED_GRAPH_H_
-#define _INTEGER_WEIGHTED_GRAPH_H_
+#ifndef INCLUDE_NISHE_INTEGERWEIGHTEDGRAPH_H_
+#define INCLUDE_NISHE_INTEGERWEIGHTEDGRAPH_H_
 
 /*
     Copyright 2010 Greg Tener
@@ -13,25 +13,22 @@
 
 namespace nishe {
 
-class IntegerWeightedGraph : public Graph<std::pair<vertex_t, int>,
-    int, MapDegreeSum<int> >
-{
+class IntegerWeightedGraph: public Graph<std::pair<vertex_t, int>, int,
+    MapDegreeSum<int> > {
  public:
-    bool add_weighted_edge(vertex_t u, vertex_t v, int weight);
-    bool add_weighted_arc(vertex_t u, vertex_t v, int weight);
+  bool add_weighted_edge(vertex_t u, vertex_t v, int weight);
+  bool add_weighted_arc(vertex_t u, vertex_t v, int weight);
 
-    vertex_t nbhr_vertex(const IntegerWeightedGraph::nbhr &nbhr) const
-    {
-        return nbhr.first;
-    }
+  vertex_t nbhr_vertex(const IntegerWeightedGraph::nbhr &nbhr) const {
+    return nbhr.first;
+  }
 
-    IntegerWeightedGraph::attr
-        nbhr_attr(const IntegerWeightedGraph::nbhr &nbhr) const
-    {
-        return nbhr.second;
-    }
+  IntegerWeightedGraph::attr nbhr_attr(
+      const IntegerWeightedGraph::nbhr &nbhr) const {
+    return nbhr.second;
+  }
 };
 
 }  // namespace nishe
 
-#endif  // _INTEGER_WEIGHTED_GRAPH_H_
+#endif  // INCLUDE_NISHE_INTEGERWEIGHTEDGRAPH_H_

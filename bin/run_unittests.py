@@ -2,6 +2,7 @@
 
 import os
 import optparse
+import sys
 
 def main():
   parser = optparse.OptionParser()
@@ -17,11 +18,17 @@ def main():
   options, args = parser.parse_args()
   
   bindir = os.path.dirname(__file__)
+  testdir = os.path.join(bindir, 'test')
+  
+  if not os.path.isdir(testdir):
+    print 'bin/test is missing, is gtest configured properly?'
+    sys.exit(1)      
   
   # run the tests ending in "-db"
   if options.debug:
     for f in os.listdir(os.path.join(bindir, 'test') ):
-      if f.endswith('-db'):
+      name, ext = os.path.splitext(f)
+      if name.endswith('-db'):
         os.system(os.path.join(bindir, 'test', f) )
   
   # run the tests not ending with "-db"

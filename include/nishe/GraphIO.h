@@ -1,10 +1,10 @@
-#ifndef _GRAPH_IO_H_
-#define _GRAPH_IO_H_
+#ifndef INCLUDE_NISHE_GRAPHIO_H_
+#define INCLUDE_NISHE_GRAPHIO_H_
 
 /*
-    Copyright 2010 Greg Tener
-    Released under the Lesser General Public License v3.
-*/
+ Copyright 2010 Greg Tener
+ Released under the Lesser General Public License v3.
+ */
 
 #include <nishe/Graphs.h>
 #include <nishe/PartitionNest.h>
@@ -53,79 +53,70 @@ namespace nishe {
 
 void fail(string err);
 
-class GraphIO
-{
+class GraphIO {
  public:
 
-    // input methods
+  // input methods
 
-    static bool input_list_ascii(istream &in,
-            BasicGraph *G_ptr, PartitionNest *pi_ptr);
+  static bool input_list_ascii(istream &in, BasicGraph *G_ptr,
+      PartitionNest *pi_ptr);
 
-    static bool input_list_ascii(istream &in,
-            DirectedGraph *G_ptr, PartitionNest *pi_ptr);
+  static bool input_list_ascii(istream &in, DirectedGraph *G_ptr,
+      PartitionNest *pi_ptr);
 
-    static bool input_list_ascii(istream &in,
-            IntegerWeightedGraph *G_ptr, PartitionNest *pi_ptr);
+  static bool input_list_ascii(istream &in, IntegerWeightedGraph *G_ptr,
+      PartitionNest *pi_ptr);
 
-    template<typename graph_t>
-    static bool input_list_ascii(string s,
-            graph_t *G_ptr, PartitionNest *pi_ptr);
+  template<typename graph_t>
+  static bool input_list_ascii(string s, graph_t *G_ptr, PartitionNest *pi_ptr);
 
-    // output methods
+  // output methods
 
-    static void output_list_ascii(ostream &out,
-            const BasicGraph &G);
+  static void output_list_ascii(ostream &out, const BasicGraph &G);
 
-    static void output_list_ascii(ostream &out,
-            const DirectedGraph &G);
+  static void output_list_ascii(ostream &out, const DirectedGraph &G);
 
-    static void output_list_ascii(ostream &out,
-            const IntegerWeightedGraph &G);
+  static void output_list_ascii(ostream &out, const IntegerWeightedGraph &G);
 
-    template <typename graph_t>
-    static string output_list_ascii_string(const graph_t &G);
+  template<typename graph_t>
+  static string output_list_ascii_string(const graph_t &G);
 
-    // conversions
+  // conversions
 
-    static void symmetric_closure(BasicGraph *pBasic,
-            const DirectedGraph &directed);
+  static void symmetric_closure(BasicGraph *pBasic,
+      const DirectedGraph &directed);
 
-    static void convert(const DirectedGraph &directed,
-        BasicGraph *basic_ptr);
-    static void convert(const DirectedGraph &directed,
-        IntegerWeightedGraph *integer_weighted_ptr);
-    static void convert(const BasicGraph &basic,
-        IntegerWeightedGraph *integer_weighted_ptr);
+  static void convert(const DirectedGraph &directed, BasicGraph *basic_ptr);
+  static void convert(const DirectedGraph &directed,
+      IntegerWeightedGraph *integer_weighted_ptr);
+  static void convert(const BasicGraph &basic,
+      IntegerWeightedGraph *integer_weighted_ptr);
 
-    // named graphs
-    static void path(BasicGraph *G_ptr, int n);
-    static void path(BasicGraph *G_ptr, PartitionNest *pi_ptr, int n);
+  // named graphs
+  static void path(BasicGraph *G_ptr, int n);
+  static void path(BasicGraph *G_ptr, PartitionNest *pi_ptr, int n);
 
-    static void directed_path(DirectedGraph *G_ptr, int n);
-    static void directed_path(DirectedGraph *G_ptr, PartitionNest *pi_ptr,
-        int n);
+  static void directed_path(DirectedGraph *G_ptr, int n);
+  static void directed_path(DirectedGraph *G_ptr, PartitionNest *pi_ptr, int n);
 
-    template <typename graph_t>
-    static void null(graph_t *G_ptr, int n);
+  template<typename graph_t>
+  static void null(graph_t *G_ptr, int n);
 
-    template <typename graph_t>
-    static void null(graph_t *G_ptr, PartitionNest *pi_ptr, int n);
+  template<typename graph_t>
+  static void null(graph_t *G_ptr, PartitionNest *pi_ptr, int n);
 
  private:
-    // returns false if cannot read any of the graph (eof)
-    // fails if graph is input improperly
-    template <typename graph_t>
-    static bool input_list_ascii(istream &in,
-            graph_t *G_ptr, PartitionNest *pi_ptr,
-            bool (*)(graph_t *, vertex_t, string) );
+  // returns false if cannot read any of the graph (eof)
+  // fails if graph is input improperly
+  template<typename graph_t>
+  static bool input_list_ascii(istream &in, graph_t *G_ptr,
+      PartitionNest *pi_ptr, bool (*add_nbhr)(graph_t *, vertex_t, string));
 
-    template <typename graph_t, typename nbhr_t>
-    static void output_list_ascii(ostream &out,
-            const graph_t &G,
-            void (*)(ostream &in, const nbhr_t &) );
+  template<typename graph_t, typename nbhr_t>
+  static void output_list_ascii(ostream &out, const graph_t &G,
+      void (*output_nbhr)(ostream &in, const nbhr_t &));
 };
 
 }  // namespace nishe
 
-#endif  // _GRAPH_IO_H_
+#endif  // INCLUDE_NISHE_GRAPHIO_H_
