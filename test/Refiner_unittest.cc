@@ -26,51 +26,79 @@ namespace nishe {
 
 class RefinerTest: public BaseNisheTest {
  public:
-  template<typename graph_t>
-  void verify_equitibility(string graphfile, graph_t *G_ptr) {
+
+  template <typename graph_a, typename graph_b>
+  void verify_converted_equitibility(string graphfile,
+    void (*convert)(const graph_a &, graph_b *) = NULL )
+  {
     ifstream in;
     ifstream in_equitable;
 
     int dotloc = graphfile.rfind('.');
 
-    string graphfile_equitable = graphfile.substr(0, graphfile.rfind('.'))
-        + "_equitable.txt";
+    string graphfile_equitable = graphfile.substr(0, graphfile.rfind('.') )
+      + "_equitable.txt";
 
-    in.open(graphfile.c_str());
+    in.open(graphfile.c_str() );
 
-    if (in.fail()) {
-      fprintf(stderr, "couldn't open data file %s\n", graphfile.c_str());
+    if (in.fail() )
+    {
+      fprintf(stderr, "couldn't open data file %s\n", graphfile.c_str() );
       exit(1);
     }
 
-    in_equitable.open(graphfile_equitable.c_str());
+    in_equitable.open(graphfile_equitable.c_str() );
 
-    if (in_equitable.fail()) {
+    if (in_equitable.fail() )
+    {
       fprintf(stderr, "couldn't open data file %s\n",
-          graphfile_equitable.c_str());
+        graphfile_equitable.c_str() );
       exit(1);
     }
 
     PartitionNest pi;
     PartitionNest pi_equitable;
-    RefineTraceValue<graph_t> a;
-    Refiner<graph_t> refiner;
 
-    bool successful_read = GraphIO::input_list_ascii(in, G_ptr, &pi);
+    graph_a G_a;
+    RefineTraceValue<graph_a> trace_a;
+    Refiner<graph_a> refiner_a;
 
-    while (successful_read) {
+    graph_b G_b;
+    RefineTraceValue<graph_b> trace_b;
+    Refiner<graph_b> refiner_b;
+
+    bool successful_read = GraphIO::input_list_ascii(in, &G_a, &pi);
+
+    while (successful_read)
+    {
       in_equitable >> pi_equitable;
 
-      refiner.refine(*G_ptr, &pi, &a);
-      a.clear();
+      if (convert != NULL)
+      {
+        convert(G_a, &G_b);
+        refiner_b.refine(G_b, &pi, &trace_b);
+        trace_b.clear();
+      }
+      else
+      {
+        refiner_a.refine(G_a, &pi, &trace_a);
+        trace_a.clear();
+
+      }
 
       ASSERT_TRUE(pi.is_equal_unordered(pi_equitable) );
 
-      successful_read = GraphIO::input_list_ascii(in, G_ptr, &pi);
+      successful_read = GraphIO::input_list_ascii(in, &G_a, &pi);
     }
 
     in.close();
     in_equitable.close();
+  }
+
+  template <typename graph_t>
+  void verify_equitibility(string graphfile)
+  {
+    return verify_converted_equitibility<graph_t, BasicGraph>(graphfile);
   }
 };
 
@@ -224,11 +252,16 @@ TEST_F(RefinerTest, RefineP4) {
 }
 
 TEST_F(RefinerTest, RefineBasicSmall) {
-  verify_equitibility("test/data/undirected-1-7.txt", &basic_graph);
+  verify_equitibility<BasicGraph>("test/data/undirected-1-7.txt");
 }
 
 TEST_F(RefinerTest, RefineDirectedSmall) {
-  verify_equitibility("test/data/directed-1-5.txt", &directed_graph);
+  verify_equitibility<DirectedGraph>("test/data/directed-1-5.txt");
+}
+
+TEST_F(RefinerTest, RefineIntegerWeightedSmall) {
+  verify_converted_equitibility<DirectedGraph, IntegerWeightedGraph>
+    ("test/data/directed-1-5.txt", GraphIO::convert);
 }
 
 }  // namespace nishe

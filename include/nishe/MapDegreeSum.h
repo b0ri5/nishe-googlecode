@@ -46,10 +46,11 @@ struct MapDegreeSum {
   // compare two mappings lexicographically
   bool operator<(const MapDegreeSum<weight_t> &a) const {
     typename map<weight_t, size_t>::const_iterator this_it;
-    typename map<weight_t, size_t>::iterator a_it;
+    typename map<weight_t, size_t>::const_iterator a_it;
 
     // compare elementwise
-    for (this_it = weight_map.begin(); this_it != weight_map.end(); this_it++) {
+    for (this_it = weight_map.begin(), a_it = a.weight_map.begin();
+         this_it != weight_map.end(); this_it++, a_it++) {
       // if a_it is exhausted but this_it isn't
       if (a_it == a.weight_map.end()) {
         return false;

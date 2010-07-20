@@ -200,6 +200,32 @@ TEST_F(GraphIOTest, OutputListAsciiIntegerWeightedGraphSmall) {
       output_graph(integer_weighted_graph).c_str() );
 }
 
+TEST_F(GraphIOTest, ConvertDirectedToBasic) {
+  input_graph(&directed_graph, "0 : 1 ;");
+
+  GraphIO::convert(directed_graph, &basic_graph);
+
+  ASSERT_EQ(2, basic_graph.vertex_count() );
+  ASSERT_EQ(1, basic_graph.get_nbhd_size(0) );
+  ASSERT_EQ(1, basic_graph.get_nbhd_size(1) );
+  EXPECT_EQ(1, basic_graph.get_nbhd(0)[0] );
+  EXPECT_EQ(0, basic_graph.get_nbhd(1)[0] );
+}
+
+TEST_F(GraphIOTest, ConvertDirectedToIntegerWeighted) {
+  input_graph(&directed_graph, "0 : 1 ;");
+
+  GraphIO::convert(directed_graph, &integer_weighted_graph);
+
+  ASSERT_EQ(2, integer_weighted_graph.vertex_count() );
+  ASSERT_EQ(1, integer_weighted_graph.get_nbhd_size(0) );
+  ASSERT_EQ(1, integer_weighted_graph.get_nbhd_size(1) );
+  EXPECT_EQ(IntegerWeightedGraph::nbhr(1, DirectedGraph::OUT),
+      integer_weighted_graph.get_nbhd(0)[0] );
+  EXPECT_EQ(IntegerWeightedGraph::nbhr(0, DirectedGraph::IN),
+        integer_weighted_graph.get_nbhd(1)[0] );
+}
+
 typedef GraphIOTest GraphIODeathTest;
 
 /*

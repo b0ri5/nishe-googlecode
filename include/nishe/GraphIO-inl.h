@@ -175,6 +175,29 @@ void GraphIO::output_list_ascii(ostream &out, const graph_t &G,
   }
 }
 
+template <typename graph_a, typename graph_b, typename graph_a_attr>
+void GraphIO::convert(const graph_a &G1, graph_b *G2_ptr,
+    void (*grapha2graphb)(vertex_t u, vertex_t v,
+        const graph_a_attr &attr, graph_b *G_ptr) )
+{
+  // clear the output graph and make it have the same vertices
+  G2_ptr->clear();
+  G2_ptr->add_vertex(G1.vertex_count() - 1);
+
+  for (int u = 0; u < G1.vertex_count(); u++)
+  {
+    const typename graph_a::nbhr *nbhd = G1.get_nbhd(u);
+
+    for (int i = 0; i < G1.get_nbhd_size(u); i++)
+    {
+      vertex_t v = G1.nbhr_vertex(nbhd[i]);
+
+      // call the conversion function to add the arc
+      grapha2graphb(u, v, G1.nbhr_attr(nbhd[i]), G2_ptr);
+    }
+  }
+}
+
 template<typename graph_t>
 void GraphIO::null(graph_t *pG, int n) {
   pG->add_vertex(n - 1);

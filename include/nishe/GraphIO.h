@@ -83,13 +83,16 @@ class GraphIO {
 
   // conversions
 
-  static void symmetric_closure(BasicGraph *pBasic,
-      const DirectedGraph &directed);
+  // conversions
 
-  static void convert(const DirectedGraph &directed, BasicGraph *basic_ptr);
+  // performs the symmetric closure
   static void convert(const DirectedGraph &directed,
-      IntegerWeightedGraph *integer_weighted_ptr);
-  static void convert(const BasicGraph &basic,
+      BasicGraph *basic_ptr);
+
+  // since directed graphs are stored "knowing" about
+  // in, out, and both edges, this returns an integer weighted graph
+  // (not necessarily symmetric)
+  static void convert(const DirectedGraph &directed,
       IntegerWeightedGraph *integer_weighted_ptr);
 
   // named graphs
@@ -115,6 +118,11 @@ class GraphIO {
   template<typename graph_t, typename nbhr_t>
   static void output_list_ascii(ostream &out, const graph_t &G,
       void (*output_nbhr)(ostream &in, const nbhr_t &));
+
+  template <typename graph_a, typename graph_b, typename graph_a_attr>
+  static void convert(const graph_a &G1, graph_b *G2_ptr,
+      void (*grapha2graphb)(vertex_t u, vertex_t v,
+          const graph_a_attr &attr, graph_b *G_ptr));
 };
 
 }  // namespace nishe

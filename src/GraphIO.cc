@@ -117,46 +117,25 @@ void GraphIO::output_list_ascii(ostream &out, const IntegerWeightedGraph &G) {
   GraphIO::output_list_ascii(out, G, output_nbhr_integer_weighted_graph);
 }
 
+// ignore the arc type and just add the edge
+static void directed2basic(vertex_t u, vertex_t v,
+    const DirectedGraph::attr &attr, BasicGraph *G_ptr) {
+  G_ptr->add_edge(u, v);
+}
+
 void GraphIO::convert(const DirectedGraph &directed, BasicGraph *basic_ptr) {
-  basic_ptr->clear();
-
-  for (int u = 0; u < directed.vertex_count(); u++) {
-    const DirectedGraph::nbhr *nbhd = directed.get_nbhd(u);
-
-    for (int i = 0; i < directed.get_nbhd_size(u); i++) {
-      vertex_t v = directed.nbhr_vertex(nbhd[i]);
-      basic_ptr->add_edge(u, v);
-    }
-  }
+  convert(directed, basic_ptr, directed2basic);
 }
 
-static void convert(const BasicGraph &basic,
-    IntegerWeightedGraph *integer_weighted_ptr) {
-  integer_weighted_ptr->clear();
-
-  for (int u = 0; u < basic.vertex_count(); u++) {
-    const BasicGraph::nbhr *nbhd = basic.get_nbhd(u);
-
-    for (int i = 0; i < basic.get_nbhd_size(u); i++) {
-      vertex_t v = basic.nbhr_vertex(nbhd[i]);
-      integer_weighted_ptr->add_weighted_edge(u, v, 0);
-    }
-  }
+// use the arc type as the weight
+static void directed2integer_weighted(vertex_t u, vertex_t v,
+    const DirectedGraph::attr &attr, IntegerWeightedGraph *G_ptr) {
+  G_ptr->add_weighted_arc(u, v, attr);
 }
 
-static void convert(const DirectedGraph &directed,
+void GraphIO::convert(const DirectedGraph &directed,
     IntegerWeightedGraph *integer_weighted_ptr) {
-  integer_weighted_ptr->clear();
-
-  for (int u = 0; u < directed.vertex_count(); u++) {
-    const DirectedGraph::nbhr *nbhd = directed.get_nbhd(u);
-
-    for (int i = 0; i < directed.get_nbhd_size(u); i++) {
-      vertex_t v = directed.nbhr_vertex(nbhd[i]);
-      integer_weighted_ptr->add_weighted_edge(
-          u, v, directed.nbhr_attr(nbhd[i]));
-    }
-  }
+  convert(directed, integer_weighted_ptr, directed2integer_weighted);
 }
 
 void GraphIO::path(BasicGraph *G_ptr, int n) {
