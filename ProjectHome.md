@@ -1,0 +1,1 @@
+The goal of nishe is to be a fast and efficient canonical labeling/symmetry detecting algorithm. It is a rewrite based of off the dissertation titled "Attacks on difficult instances of graph isomorphism: sequential and parallel algorithms."
